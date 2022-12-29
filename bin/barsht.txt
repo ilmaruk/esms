@@ -1,0 +1,23 @@
+bar
+A
+
+GK X_Dresumn
+DFC H_Unyae
+DFC Q_Redr
+DFC J_Drewcu
+DFC Y_Ibtajhe
+MFC V_Uksuackan
+MFC C_Urso
+MFC C_Pubrow
+FWC U_Edsecebt
+FWC H_Ashedsevr
+FWC I_Btudne
+
+GK D_Pruclo
+DFC R_Lany
+MFC S_Eproavrovr
+DFC P_Hubt
+FWC U_Ekri
+
+PK: U_Edsecebt
+

@@ -1,0 +1,23 @@
+foo
+N
+
+GK O_Ahaerte
+DFC L_Fonh
+DFC Z_Ciz
+DFC R_Fubtiya
+DFC D_Oksi
+MFC V_Ibtoprovr
+MFC L_Brobibs
+MFC L_Idse
+MFC R_Uryae
+FWC R_Damnedn
+FWC B_Omnoblity
+
+GK H_Shitrem
+DFC F_Praed
+MFC I_Claebrodnu
+DFC F_Noobewsy
+FWC L_Jish
+
+PK: R_Damnedn
+
