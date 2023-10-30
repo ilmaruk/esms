@@ -2,7 +2,7 @@
 // Copyright (C) <1998-2005>  Eli Bendersky
 //
 // This program is free software, licensed with the GPL (www.fsf.org)
-// 
+//
 #include <cstdio>
 #include <cstdlib>
 #include <sstream>
@@ -15,7 +15,6 @@
 #include <climits>
 #include <cctype>
 
-
 using namespace std;
 
 #include "util.h"
@@ -26,7 +25,6 @@ using namespace std;
 // whether there is a wait on exit
 //
 bool waitflag = true;
-
 
 char nationalities[20][4] = {"arg", "aus", "bra", "bul",
                              "cam", "cro", "den", "eng",
@@ -41,45 +39,44 @@ double gaussian_vars[N_GAUSS] = {0};
 inline unsigned uniform_random(unsigned max);
 inline unsigned averaged_random_part_dev(unsigned average, unsigned div);
 inline unsigned averaged_random(unsigned average, unsigned max_deviation);
-void fill_gaussian_vars_arr(double* arr, unsigned amount);
+void fill_gaussian_vars_arr(double *arr, unsigned amount);
 string gen_random_name(void);
 
-
-bool more_st(const RosterPlayer& p1, const RosterPlayer& p2)
+bool more_st(const RosterPlayer &p1, const RosterPlayer &p2)
 {
-	return p1.st > p2.st;
+    return p1.st > p2.st;
 }
 
-
-bool more_tk(const RosterPlayer& p1, const RosterPlayer& p2)
+bool more_tk(const RosterPlayer &p1, const RosterPlayer &p2)
 {
-	return p1.tk > p2.tk;
+    return p1.tk > p2.tk;
 }
 
-
-bool more_ps(const RosterPlayer& p1, const RosterPlayer& p2)
+bool more_ps(const RosterPlayer &p1, const RosterPlayer &p2)
 {
-	return p1.ps > p2.ps;
+    return p1.ps > p2.ps;
 }
 
-
-bool more_sh(const RosterPlayer& p1, const RosterPlayer& p2)
+bool more_sh(const RosterPlayer &p1, const RosterPlayer &p2)
 {
-	return p1.sh > p2.sh;
+    return p1.sh > p2.sh;
 }
 
-
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-    srand((unsigned) time(NULL));
-
     // handling/parsing command line arguments
     //
-    AnyOption* opt = new AnyOption();
+    AnyOption *opt = new AnyOption();
     opt->noPOSIX();
 
     opt->setFlag("no_wait_on_exit");
+    opt->setOption("seed");
     opt->processCommandArgs(argc, argv);
+
+    long seed = time(NULL);
+    if (opt->getValue("seed"))
+        seed = atol(opt->getValue("seed"));
+    srand(seed);
 
     if (opt->getFlag("no_wait_on_exit"))
         waitflag = false;
@@ -112,11 +109,11 @@ int main(int argc, char* argv[])
 
     for (int roster_count = 1; roster_count <= cfg_n_rosters; ++roster_count)
     {
-		RosterPlayerArray players_arr;
+        RosterPlayerArray players_arr;
 
         for (int pl_count = 1; pl_count <= n_players; ++pl_count)
         {
-			RosterPlayer player;
+            RosterPlayer player;
             int temp_rand = 0;
 
             // Name: empty, or generated, depends on flag in configuration file
@@ -124,13 +121,13 @@ int main(int argc, char* argv[])
             if (the_config().get_config_value("GENERATE_NAMES") == "")
                 player.name = "_";
             else
-				player.name = gen_random_name();
+                player.name = gen_random_name();
 
             // Nationality: randomly chosen from 20 possibilities
             //
             temp_rand = uniform_random(19);
             assert(temp_rand >= 0 && temp_rand <= 19);
-			player.nationality = nationalities[temp_rand];
+            player.nationality = nationalities[temp_rand];
 
             // Age: Varies between 16 and 30
             //
@@ -235,26 +232,26 @@ int main(int argc, char* argv[])
             player.injury = 0;
             player.suspension = 0;
             player.fitness = 100;
-			
-			players_arr.push_back(player);
+
+            players_arr.push_back(player);
         }
-		
-		sort(	players_arr.begin(), 
-				players_arr.begin() + cfg_n_gk, 
-				more_st);
-		
-		sort(	players_arr.begin() + cfg_n_gk, 
-				players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm, 
-				more_tk);
-		
-		sort(	players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm, 
-				players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm + cfg_n_mf + cfg_n_am, 
-				more_ps);
-		
-		sort(	players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm + cfg_n_mf + cfg_n_am, 
-				players_arr.end(), 
-				more_sh);
-		
+
+        sort(players_arr.begin(),
+             players_arr.begin() + cfg_n_gk,
+             more_st);
+
+        sort(players_arr.begin() + cfg_n_gk,
+             players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm,
+             more_tk);
+
+        sort(players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm,
+             players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm + cfg_n_mf + cfg_n_am,
+             more_ps);
+
+        sort(players_arr.begin() + cfg_n_gk + cfg_n_df + cfg_n_dm + cfg_n_mf + cfg_n_am,
+             players_arr.end(),
+             more_sh);
+
         ostringstream os;
         os << cfg_roster_name_prefix << roster_count << ".txt";
         string filename = os.str();
@@ -266,35 +263,31 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-
 // Return a pseudo-random integer uniformly distributed
 // between 0 and max
 //
 inline unsigned uniform_random(unsigned max)
 {
-    double d = rand() / (double) RAND_MAX;
-    unsigned u = (unsigned)  (d * (max + 1));
+    double d = rand() / (double)RAND_MAX;
+    unsigned u = (unsigned)(d * (max + 1));
 
     return (u == max + 1 ? max - 1 : u);
 }
-
 
 inline unsigned averaged_random_part_dev(unsigned average, unsigned div)
 {
     return averaged_random(average, average / div);
 }
 
-
 inline unsigned averaged_random(unsigned average, unsigned max_deviation)
 {
-    double rand_gaussian = gaussian_vars[uniform_random(N_GAUSS-1)];
+    double rand_gaussian = gaussian_vars[uniform_random(N_GAUSS - 1)];
     double deviation = max_deviation * rand_gaussian;
 
     return average + (unsigned)deviation;
 }
 
-
-void fill_gaussian_vars_arr(double* arr, unsigned amount)
+void fill_gaussian_vars_arr(double *arr, unsigned amount)
 {
     for (unsigned i = 0; i < amount; ++i)
     {
@@ -310,21 +303,18 @@ void fill_gaussian_vars_arr(double* arr, unsigned amount)
                 double u1 = rand() / (double)RAND_MAX;
                 double u2 = rand() / (double)RAND_MAX;
 
-                v1 = 2*u1 - 1;
-                v2 = 2*u2 - 1;
+                v1 = 2 * u1 - 1;
+                v2 = 2 * u2 - 1;
 
-                s = v1*v1 + v2*v2;
-            }
-            while (s >= 1.0);
+                s = v1 * v1 + v2 * v2;
+            } while (s >= 1.0);
 
-            x = v1*sqrt((-2)*log(s)/s);
-        }
-        while(x >= 1.0 || x <= -1.0);
+            x = v1 * sqrt((-2) * log(s) / s);
+        } while (x >= 1.0 || x <= -1.0);
 
         arr[i] = x;
     }
 }
-
 
 // Given a string with comma separated values (like "a,cd,k")
 // returns a random value.
@@ -335,7 +325,6 @@ string rand_elem(string csv)
     return elems[uniform_random(unsigned(elems.size()) - 1)];
 }
 
-
 // Throws a bet with probability prob of success. Returns
 // true iff succeeded.
 //
@@ -345,7 +334,6 @@ bool throw_with_prob(unsigned prob)
 
     return (prob >= a_throw) ? true : false;
 }
-
 
 // A very rudimentary random name generator
 //
