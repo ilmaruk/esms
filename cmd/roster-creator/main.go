@@ -1,3 +1,7 @@
+// ESMS - Electronic Soccer Management Simulator
+// Copyright (C) <1998-2005>  Eli Bendersky
+//
+// This program is free software, licensed with the GPL (www.fsf.org)
 package main
 
 import (
@@ -6,19 +10,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/spf13/viper"
 	"golang.org/x/exp/slices"
 
 	"github.com/ilmaruk/esms/internal"
 	"github.com/ilmaruk/esms/internal/models"
 	"github.com/ilmaruk/esms/internal/random"
-	"github.com/spf13/viper"
 )
-
-// // ESMS - Electronic Soccer Management Simulator
-// // Copyright (C) <1998-2005>  Eli Bendersky
-// //
-// // This program is free software, licensed with the GPL (www.fsf.org)
-// //
 
 var (
 	waitFlag bool

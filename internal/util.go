@@ -1,3 +1,7 @@
+// ESMS - Electronic Soccer Management Simulator
+// Copyright (C) <1998-2005>  Eli Bendersky
+//
+// This program is free software, licensed with the GPL (www.fsf.org)
 package internal
 
 import (
@@ -5,20 +9,6 @@ import (
 	"fmt"
 	"os"
 )
-
-// // ESMS - Electronic Soccer Management Simulator
-// // Copyright (C) <1998-2005>  Eli Bendersky
-// //
-// // This program is free software, licensed with the GPL (www.fsf.org)
-// //
-// #include "util.h"
-// #include "config.h"
-// #include <cctype>
-// #include <cstdarg>
-// #include <functional>
-// #include <algorithm>
-
-// using namespace std;
 
 // extern bool waitflag;
 

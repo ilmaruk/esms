@@ -1,3 +1,7 @@
+// ESMS - Electronic Soccer Management Simulator
+// Copyright (C) <1998-2005>  Eli Bendersky
+//
+// This program is free software, licensed with the GPL (www.fsf.org)
 package models
 
 import (
@@ -5,18 +9,7 @@ import (
 	"os"
 )
 
-// // ESMS - Electronic Soccer Management Simulator
-// // Copyright (C) <1998-2005>  Eli Bendersky
-// //
-// // This program is free software, licensed with the GPL (www.fsf.org)
-// //
-// #include <cstdio>
-// #include <cstdlib>
-// #include <cstring>
-// #include <fstream>
-
-// #include "rosterplayer.h"
-// #include "util.h"
+type Roster []RosterPlayer
 
 type RosterPlayer struct {
 	Name        string
