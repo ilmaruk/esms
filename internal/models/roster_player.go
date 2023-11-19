@@ -160,3 +160,31 @@ func WriteRosterPlayers(rosterFilename string, playersArr []RosterPlayer) error 
 
 	return nil
 }
+
+func MoreSt(p1, p2 RosterPlayer) int {
+	if p1.St < p2.St {
+		return 1
+	}
+	return -1
+}
+
+func MoreTk(p1, p2 RosterPlayer) int {
+	if p1.Tk < p2.Tk {
+		return 1
+	}
+	return -1
+}
+
+func MorePs(p1, p2 RosterPlayer) int {
+	if p1.Ps < p2.Ps {
+		return 1
+	}
+	return -1
+}
+
+func MoreSh(p1, p2 RosterPlayer) int {
+	if p1.Sh < p2.Sh {
+		return 1
+	}
+	return -1
+}

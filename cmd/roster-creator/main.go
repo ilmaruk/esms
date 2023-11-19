@@ -39,34 +39,6 @@ const nGauss = 1000
 
 var gaussianVars = make([]float64, nGauss)
 
-func moreSt(p1, p2 models.RosterPlayer) int {
-	if p1.St < p2.St {
-		return 1
-	}
-	return -1
-}
-
-func moreTk(p1, p2 models.RosterPlayer) int {
-	if p1.Tk < p2.Tk {
-		return 1
-	}
-	return -1
-}
-
-func morePs(p1, p2 models.RosterPlayer) int {
-	if p1.Ps < p2.Ps {
-		return 1
-	}
-	return -1
-}
-
-func moreSh(p1, p2 models.RosterPlayer) int {
-	if p1.Sh < p2.Sh {
-		return 1
-	}
-	return -1
-}
-
 var rnd *rand.Rand
 
 func parseConfig() error {
@@ -239,10 +211,10 @@ func main() {
 			playersArr = append(playersArr, player)
 		}
 
-		slices.SortFunc(playersArr[0:cfgNGk], moreSt)
-		slices.SortFunc(playersArr[cfgNGk:cfgNGk+cfgNDf+cfgNDm], moreTk)
-		slices.SortFunc(playersArr[cfgNGk+cfgNDf+cfgNDm:cfgNGk+cfgNDf+cfgNDm+cfgNMf+cfgNAm], morePs)
-		slices.SortFunc(playersArr[cfgNGk+cfgNDf+cfgNDm+cfgNMf+cfgNAm:], moreSh)
+		slices.SortFunc(playersArr[0:cfgNGk], models.MoreSt)
+		slices.SortFunc(playersArr[cfgNGk:cfgNGk+cfgNDf+cfgNDm], models.MoreTk)
+		slices.SortFunc(playersArr[cfgNGk+cfgNDf+cfgNDm:cfgNGk+cfgNDf+cfgNDm+cfgNMf+cfgNAm], models.MorePs)
+		slices.SortFunc(playersArr[cfgNGk+cfgNDf+cfgNDm+cfgNMf+cfgNAm:], models.MoreSh)
 
 		filename := fmt.Sprintf("%s%d.txt", viper.GetString("rosterNamePrefix"), rosterCount)
 		if err := models.WriteRosterPlayers(filename, playersArr); err != nil {
@@ -318,12 +290,6 @@ func throwWithProb(prob int) bool {
 	aThrow := 1 + uniformRandom(99)
 	return prob >= aThrow
 }
-
-// string gen_random_name(void)
-// {
-
-//     return result;
-// }
 
 // A very rudimentary random name generator
 func genRandomName() string {
