@@ -13,6 +13,7 @@ import (
 
 	"github.com/ilmaruk/esms/internal"
 	"github.com/ilmaruk/esms/internal/models"
+	"github.com/spf13/viper"
 )
 
 // // ESMS - Electronic Soccer Management Simulator
@@ -20,39 +21,12 @@ import (
 // //
 // // This program is free software, licensed with the GPL (www.fsf.org)
 // //
-// #include <cstdio>
-// #include <cstdlib>
-// #include <sstream>
-// #include <cstring>
-// #include <iostream>
-// #include <algorithm>
-// #include <ctime>
-// #include <cassert>
-// #include <cmath>
-// #include <climits>
-// #include <cctype>
 
-// using namespace std;
-
-// #include "util.h"
-// #include "config.h"
-// #include "rosterplayer.h"
-// #include "anyoption.h"
-
-// // whether there is a wait on exit
-// //
-// bool waitflag = true;
 var (
 	waitFlag bool
 	seed     int64
 )
 
-// char nationalities[20][4] = {"arg", "aus", "bra", "bul",
-//
-//	"cam", "cro", "den", "eng",
-//	"fra", "ger", "hol", "ire",
-//	"isr", "ita", "jap", "nig",
-//	"nor", "saf", "spa", "usa"};
 var nationalities = []string{
 	"arg", "aus", "bra", "bul",
 	"cam", "cro", "den", "eng",
@@ -61,17 +35,9 @@ var nationalities = []string{
 	"nor", "saf", "spa", "usa",
 }
 
-// const unsigned N_GAUSS = 1000;
 const nGauss = 1000
 
-// double gaussian_vars[N_GAUSS] = {0};
 var gaussianVars = make([]float64, nGauss)
-
-// inline unsigned uniform_random(unsigned max);
-// inline unsigned averaged_random_part_dev(unsigned average, unsigned div);
-// inline unsigned averaged_random(unsigned average, unsigned max_deviation);
-// void fill_gaussian_vars_arr(double *arr, unsigned amount);
-// string gen_random_name(void);
 
 func moreSt(p1, p2 models.RosterPlayer) int {
 	if p1.St < p2.St {
@@ -103,7 +69,41 @@ func moreSh(p1, p2 models.RosterPlayer) int {
 
 var rnd *rand.Rand
 
+func parseConfig() error {
+	viper.SetConfigName("roster-creator-config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+
+	// Setting up some default values for the
+	// configuration data variables
+	viper.SetDefault("rosterNamePrefix", "aaa")
+	viper.SetDefault("numRosters", 10)
+	viper.SetDefault("numGK", 3)
+	viper.SetDefault("numDF", 8)
+	viper.SetDefault("numDM", 3)
+	viper.SetDefault("numMF", 8)
+	viper.SetDefault("numAM", 3)
+	viper.SetDefault("numFW", 8)
+	viper.SetDefault("cfgAverageStamina", 60)
+	viper.SetDefault("cfgAverageAggression", 30)
+	viper.SetDefault("averageMainSkill", 14)
+	viper.SetDefault("averageMidSkill", 11)
+	viper.SetDefault("averageSecondarySkill", 7)
+
+	if err := viper.ReadInConfig(); err != nil {
+		// It's fine if there's no config file: we have defaults
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			return err
+		}
+	}
+	return nil
+}
+
 func main() {
+	if err := parseConfig(); err != nil {
+		panic(err)
+	}
+
 	// handling/parsing command line arguments
 	flag.BoolVar(&waitFlag, "wait-on-exit", false, "whether to show a prompt before exiting")
 	flag.Int64Var(&seed, "seed", time.Now().UnixMicro(), "the seed for the randomiser")
@@ -113,46 +113,20 @@ func main() {
 
 	fillGaussianVarsArr(gaussianVars, nGauss)
 
-	//     the_config().load_config_file("roster_creator_cfg.txt");
+	cfgNGk := viper.GetInt("numGK")
+	cfgNDf := viper.GetInt("numDF")
+	cfgNDm := viper.GetInt("numDM")
+	cfgNMf := viper.GetInt("numMF")
+	cfgNAm := viper.GetInt("numAM")
+	cfgNFw := viper.GetInt("numFW")
 
-	// Setting up some default values for the
-	// configuration data variables
-	//
-	//     int cfg_n_rosters = the_config().get_int_config("N_ROSTERS", 10);
-	//     int cfg_n_gk = the_config().get_int_config("N_GK", 3);
-	//     int cfg_n_df = the_config().get_int_config("N_DF", 8);
-	//     int cfg_n_dm = the_config().get_int_config("N_DM", 3);
-	//     int cfg_n_mf = the_config().get_int_config("N_MF", 8);
-	//     int cfg_n_am = the_config().get_int_config("N_AM", 3);
-	//     int cfg_n_fw = the_config().get_int_config("N_FW", 5);
-	//     int cfg_average_stamina = the_config().get_int_config("AVERAGE_STAMINA", 60);
-	//     int cfg_average_aggression = the_config().get_int_config("AVERAGE_AGGRESSION", 30);
-	//     int cfg_average_main_skill = the_config().get_int_config("AVERAGE_MAIN_SKILL", 14);
-	//     int cfg_average_mid_skill = the_config().get_int_config("AVERAGE_MID_SKILL", 11);
-	//     int cfg_average_secondary_skill = the_config().get_int_config("AVERAGE_SECONDARY_SKILL", 7);
-	//     string cfg_roster_name_prefix = the_config().get_config_value("ROSTER_NAME_PREFIX");
-
-	//     if (cfg_roster_name_prefix == "")
-	//         cfg_roster_name_prefix = "aaa";
-	cfgNRosters := 10
-	cfgNGk := 3
-	cfgNDf := 8
-	cfgNDm := 3
-	cfgNMf := 8
-	cfgNAm := 3
-	cfgNFw := 5
-	cfgAverageStamina := 60
-	cfgAverageAggression := 30
-
-	cfgAverageMainSkill := 14
-	cfgAverageMidSkill := 11
-	cfgAverageSecondarySkill := 7
-
-	cfgRosterNamePrefix := "aaa"
+	cfgAverageMainSkill := viper.GetInt("averageMainSkill")
+	cfgAverageMidSkill := viper.GetInt("averageMidSkill")
+	cfgAverageSecondarySkill := viper.GetInt("averageSecondarySkill")
 
 	nPlayers := cfgNGk + cfgNDf + cfgNDm + cfgNMf + cfgNAm + cfgNFw
 
-	for rosterCount := 1; rosterCount <= cfgNRosters; rosterCount++ {
+	for rosterCount := 1; rosterCount <= viper.GetInt("numRosters"); rosterCount++ {
 		playersArr := make([]models.RosterPlayer, 0, nPlayers)
 		for plCount := 1; plCount <= nPlayers; plCount++ {
 			var player models.RosterPlayer
@@ -235,11 +209,11 @@ func main() {
 
 			// Stamina
 			//
-			player.Stamina = averagedRandomPartDev(cfgAverageStamina, 2)
+			player.Stamina = averagedRandomPartDev(viper.GetInt("averageStamina"), 2)
 
 			// Aggression
 			//
-			player.Ag = averagedRandomPartDev(cfgAverageAggression, 3)
+			player.Ag = averagedRandomPartDev(viper.GetInt("averageAggression"), 3)
 
 			// Abilities: set all to 300
 			//
@@ -270,44 +244,17 @@ func main() {
 		slices.SortFunc(playersArr[cfgNGk+cfgNDf+cfgNDm:cfgNGk+cfgNDf+cfgNDm+cfgNMf+cfgNAm], morePs)
 		slices.SortFunc(playersArr[cfgNGk+cfgNDf+cfgNDm+cfgNMf+cfgNAm:], moreSh)
 
-		filename := fmt.Sprintf("%s%d.txt", cfgRosterNamePrefix, rosterCount)
+		filename := fmt.Sprintf("%s%d.txt", viper.GetString("rosterNamePrefix"), rosterCount)
 		if err := models.WriteRosterPlayers(filename, playersArr); err != nil {
 			panic(err)
 		}
-
-		printRoster(playersArr)
 	}
 
 	internal.MyExit(waitFlag, 0)
 }
 
-// int main(int argc, char *argv[])
-// {
-
-//     the_config().load_config_file("roster_creator_cfg.txt");
-
-//     // Setting up some default values for the
-//     // configuration data variables
-//     //
-
-//     for (int roster_count = 1; roster_count <= cfg_n_rosters; ++roster_count)
-//     {
-//     }
-
-//     MY_EXIT(0);
-//     return 0;
-// }
-
-// // Return a pseudo-random integer uniformly distributed
-// // between 0 and max
-// //
-// inline unsigned uniform_random(unsigned max)
-// {
-//     double d = rand() / (double)RAND_MAX;
-//     unsigned u = (unsigned)(d * (max + 1));
-
-//	    return (u == max + 1 ? max - 1 : u);
-//	}
+// Return a pseudo-random integer uniformly distributed
+// between 0 and max
 func uniformRandom(max int) int {
 	return rnd.Intn(max + 1)
 }
