@@ -13,6 +13,7 @@ import (
 
 type Roster struct {
 	ID      uuid.UUID
+	Name    string
 	Players []RosterPlayer
 }
 

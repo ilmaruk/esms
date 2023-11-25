@@ -1,4 +1,4 @@
-package logic
+package generators
 
 import (
 	"slices"
@@ -20,7 +20,8 @@ var nationalities = []string{
 
 func CreateRoster(rnd random.Randomiser, numGK, numDF, numDM, numMF, numAM, numFW, mainSkill, midSkill, secSkill int) models.Roster {
 	roster := models.Roster{
-		ID: uuid.New(),
+		ID:   uuid.New(),
+		Name: GenerateTeamName(rnd),
 	}
 
 	nPlayers := numGK + numDF + numDM + numMF + numAM + numFW

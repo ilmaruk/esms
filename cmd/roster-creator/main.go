@@ -6,12 +6,13 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"time"
 
 	"github.com/spf13/viper"
 
 	"github.com/ilmaruk/esms/internal"
-	"github.com/ilmaruk/esms/internal/logic"
+	"github.com/ilmaruk/esms/internal/logic/generators"
 	"github.com/ilmaruk/esms/internal/models"
 	"github.com/ilmaruk/esms/internal/plugins/persistence/file"
 	"github.com/ilmaruk/esms/internal/random"
@@ -82,8 +83,9 @@ func main() {
 	storer := file.NewJSONRosterStorer("./data")
 
 	for rosterCount := 1; rosterCount <= viper.GetInt("numRosters"); rosterCount++ {
-		roster := logic.CreateRoster(rnd, cfgNGk, cfgNDf, cfgNDm, cfgNMf, cfgNAm, cfgNFw, cfgAverageMainSkill, cfgAverageMidSkill, cfgAverageSecondarySkill)
+		roster := generators.CreateRoster(rnd, cfgNGk, cfgNDf, cfgNDm, cfgNMf, cfgNAm, cfgNFw, cfgAverageMainSkill, cfgAverageMidSkill, cfgAverageSecondarySkill)
 		storer.Store(roster)
+		fmt.Printf("[%s] %s\n", roster.ID, roster.Name)
 	}
 
 	internal.MyExit(waitFlag, 0)
