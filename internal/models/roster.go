@@ -7,11 +7,17 @@ package models
 import (
 	"fmt"
 	"os"
+
+	"github.com/google/uuid"
 )
 
-type Roster []RosterPlayer
+type Roster struct {
+	ID      uuid.UUID
+	Players []RosterPlayer
+}
 
 type RosterPlayer struct {
+	ID          uuid.UUID
 	Name        string
 	Nationality string
 	Age         int
