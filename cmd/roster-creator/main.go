@@ -27,15 +27,16 @@ var (
 	seed     int64
 )
 
-func parseConfig() error {
-	viper.SetConfigName("roster-creator-config")
+func parseConfig(path string) error {
+	viper.SetConfigFile(path)
+	// viper.SetConfigName(path)
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+	// viper.AddConfigPath(".")
 
 	// Setting up some default values for the
 	// configuration data variables
 	viper.SetDefault("rosterNamePrefix", "aaa")
-	viper.SetDefault("numRosters", 10)
+	viper.SetDefault("numRosters", 16)
 	viper.SetDefault("numGK", 3)
 	viper.SetDefault("numDF", 8)
 	viper.SetDefault("numDM", 3)
@@ -58,14 +59,17 @@ func parseConfig() error {
 }
 
 func main() {
-	if err := parseConfig(); err != nil {
-		panic(err)
-	}
+	var cfgFilename string
 
 	// handling/parsing command line arguments
+	flag.StringVar(&cfgFilename, "config", "roster-creator-config.yaml", "path to the config file")
 	flag.BoolVar(&waitFlag, "wait-on-exit", false, "whether to show a prompt before exiting")
 	flag.Int64Var(&seed, "seed", time.Now().UnixMicro(), "the seed for the randomiser")
 	flag.Parse()
+
+	if err := parseConfig(cfgFilename); err != nil {
+		panic(err)
+	}
 
 	rnd := random.NewEsmsRandomiser()
 
