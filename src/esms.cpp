@@ -251,15 +251,15 @@ int main(int argc, char* argv[])
 
     // Read teams' rosters
     //
-    string home_ros_name = work_dir + string(team[0].name) + ".txt";
-    string away_ros_name = work_dir + string(team[1].name) + ".txt";
+    string home_ros_name = work_dir + string(team[0].name) + ".json";
+    string away_ros_name = work_dir + string(team[1].name) + ".json";
 
-    msg = read_roster_players(home_ros_name, team[0].roster_players);
+    msg = read_roster(home_ros_name, team[0].roster_players);
 	
 	if (msg != "")
 		die(msg.c_str());
 	
-    msg = read_roster_players(away_ros_name, team[1].roster_players);
+    msg = read_roster(away_ros_name, team[1].roster_players);
 	
 	if (msg != "")
 		die(msg.c_str());

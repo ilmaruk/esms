@@ -19,11 +19,9 @@
 
 using namespace std;
 
-
 // whether there is a wait on exit
 //
 bool waitflag = true;
-
 
 // These reports are filled in by the various updating functions,
 // and printed to one file in the end
@@ -35,14 +33,13 @@ vector<string> stats_report;
 vector<string> leaders_report;
 vector<string> table_report;
 
-
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
     // handling/parsing command line arguments
     //
-    AnyOption* opt = new AnyOption();
+    AnyOption *opt = new AnyOption();
     opt->noPOSIX();
 
     opt->setFlag("no_wait_on_exit");
@@ -62,23 +59,22 @@ int main(int argc, char* argv[])
     }
     else
     {
-        cout <<
-        "What would you like to do ?\n\n"
-		"Weekly updates:\n\n"
-        "1)  Update rosters (100% fitness recovery)\n"
-		"2)  Update rosters (50% fitness recovery)\n"
-        "3)  Decrease injuries\n"
-        "4)  Decrease suspensions\n"
-        "5)  Update league table\n"
-        "6)  Decrease suspensions + update rosters (50% of fitness gain)\n"
-        "7)  Decrease suspensions, injuries + update rosters (50% fitness recovery), league table\n"
-        "8)  Decrease suspensions, injuries + update rosters (100% fitness recovery), league table\n\n"
-		"End-of-season updates:\n\n"
-		"9)  Increase all players' age by one\n"
-		"10) Reset all player stats\n"
-		"11) Reset all player stats, including injuries\n"
-		"12) Reset all player stats, including injuries and suspensions\n\n"
-        "Enter your choice -> ";
+        cout << "What would you like to do ?\n\n"
+                "Weekly updates:\n\n"
+                "1)  Update rosters (100% fitness recovery)\n"
+                "2)  Update rosters (50% fitness recovery)\n"
+                "3)  Decrease injuries\n"
+                "4)  Decrease suspensions\n"
+                "5)  Update league table\n"
+                "6)  Decrease suspensions + update rosters (50% of fitness gain)\n"
+                "7)  Decrease suspensions, injuries + update rosters (50% fitness recovery), league table\n"
+                "8)  Decrease suspensions, injuries + update rosters (100% fitness recovery), league table\n\n"
+                "End-of-season updates:\n\n"
+                "9)  Increase all players' age by one\n"
+                "10) Reset all player stats\n"
+                "11) Reset all player stats, including injuries\n"
+                "12) Reset all player stats, including injuries and suspensions\n\n"
+                "Enter your choice -> ";
 
         string reply;
         getline(cin, reply);
@@ -100,12 +96,12 @@ int main(int argc, char* argv[])
     case 1:
         update_rosters();
         recover_fitness(false);
-		generate_leaders();
+        generate_leaders();
         break;
     case 2:
         update_rosters();
-	    recover_fitness(true);
-		generate_leaders();
+        recover_fitness(true);
+        generate_leaders();
         break;
     case 3:
         decrease_suspensions_injuries(INJURIES);
@@ -119,35 +115,35 @@ int main(int argc, char* argv[])
     case 6:
         decrease_suspensions_injuries(SUSPENSIONS);
         update_rosters();
-		recover_fitness(true);
+        recover_fitness(true);
         generate_leaders();
         break;
     case 7:
         decrease_suspensions_injuries(SUSPENSIONS | INJURIES);
         update_rosters();
-		recover_fitness(true);
+        recover_fitness(true);
         generate_leaders();
         update_league_table();
         break;
     case 8:
         decrease_suspensions_injuries(SUSPENSIONS | INJURIES);
         update_rosters();
-		recover_fitness(false);
+        recover_fitness(false);
         generate_leaders();
         update_league_table();
         break;
-	case 9:
-		increase_ages();
-		break;
-	case 10:
-		reset_stats();
-		break;
-	case 11:
-		reset_stats(INJURIES);
-		break;
-	case 12:
-		reset_stats(INJURIES | SUSPENSIONS);
-		break;
+    case 9:
+        increase_ages();
+        break;
+    case 10:
+        reset_stats();
+        break;
+    case 11:
+        reset_stats(INJURIES);
+        break;
+    case 12:
+        reset_stats(INJURIES | SUSPENSIONS);
+        break;
     default:
         die("Illegal option %d", option);
     }
@@ -179,7 +175,6 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-
 bool is_stats_header_line(string line)
 {
     vector<string> toks = tokenize(line, " \t");
@@ -190,11 +185,10 @@ bool is_stats_header_line(string line)
         return false;
 }
 
-
 // Fills in the vectors with stats from filename
 //
-void get_players_game_stats(string stats_filename, vector<player_game_stats>& home_team,
-                            vector<player_game_stats>& away_team)
+void get_players_game_stats(string stats_filename, vector<player_game_stats> &home_team,
+                            vector<player_game_stats> &away_team)
 {
     ifstream file(stats_filename.c_str());
 
@@ -253,7 +247,6 @@ void get_players_game_stats(string stats_filename, vector<player_game_stats>& ho
                 team.push_back(player);
             }
 
-
             if (team_count == 1)
                 home_team = team;
             else
@@ -262,20 +255,18 @@ void get_players_game_stats(string stats_filename, vector<player_game_stats>& ho
     }
 }
 
-
 // Finds a player by name in a roster
 //
-RosterPlayerIterator get_player_by_name_from_roster(string name, RosterPlayerArray& players)
+RosterPlayerIterator get_player_by_name_from_roster(string name, RosterPlayerArray &players)
 {
     for (RosterPlayerIterator player = players.begin(); player != players.end(); ++player)
     {
-		if (player->name == name)
-			return player;
+        if (player->name == name)
+            return player;
     }
 
     return players.end();
 }
-
 
 // Handles a skill change as a result of the ability crossing a threshold
 //
@@ -284,7 +275,7 @@ RosterPlayerIterator get_player_by_name_from_roster(string name, RosterPlayerArr
 //   - ab_points, skill - the ability and skill affected. In case of a skill change,
 //     these values are modified by the function
 //
-void handle_skill_change(string player_name, string team_name, string skill_name, int& ab_points, int& skill)
+void handle_skill_change(string player_name, string team_name, string skill_name, int &ab_points, int &skill)
 {
     // Increase ?
     if (ab_points >= 1000)
@@ -292,9 +283,9 @@ void handle_skill_change(string player_name, string team_name, string skill_name
         ab_points -= 700;
         skill++;
         skill_change_report.push_back(the_commentary().rand_comment("UPDTR_SKILL_INCREASE",
-                                      player_name.c_str(),
-                                      team_name.c_str(),
-                                      skill_name.c_str()));
+                                                                    player_name.c_str(),
+                                                                    team_name.c_str(),
+                                                                    skill_name.c_str()));
     }
     // Decrease ?
     else if (ab_points < 0)
@@ -302,26 +293,23 @@ void handle_skill_change(string player_name, string team_name, string skill_name
         ab_points += 300;
         skill--;
         skill_change_report.push_back(the_commentary().rand_comment("UPDTR_SKILL_DECREASE",
-                                      player_name.c_str(),
-                                      team_name.c_str(),
-                                      skill_name.c_str()));
+                                                                    player_name.c_str(),
+                                                                    team_name.c_str(),
+                                                                    skill_name.c_str()));
     }
 
     return;
 }
 
-
-bool perf_predicate(const pair<string, int>& left, const pair<string, int>& right)
+bool perf_predicate(const pair<string, int> &left, const pair<string, int> &right)
 {
     return left.second > right.second;
 }
-
 
 int calc_perf_points(int goals, int shots, int tackles, int saves, int assists, int keypasses, int dp)
 {
     return goals * 9 + shots + tackles * 6 + saves * 3 + assists * 7 + keypasses * 4 - dp * 2;
 }
-
 
 string make_header(string header_name)
 {
@@ -330,7 +318,6 @@ string make_header(string header_name)
 
     return ret;
 }
-
 
 // Goes over stats.dir and updates the rosters of all teams with
 // stats from the listed games.
@@ -353,12 +340,12 @@ void update_rosters()
 
     map<string, int> weekly_stats;
     weekly_stats["goals"] = weekly_stats["goals_DF"] = weekly_stats["goals_DM"] = weekly_stats["goals_MF"] =
-		weekly_stats["goals_AM"] = weekly_stats["goals_FW"] = weekly_stats["assists"] =
-		weekly_stats["assists_DF"] = weekly_stats["assists_DM"] = weekly_stats["assists_MF"] =
-		weekly_stats["assists_DM"] = weekly_stats["assists_FW"] = weekly_stats["yellows"] =
-		weekly_stats["reds"] = weekly_stats["injuries"] = 0;
+        weekly_stats["goals_AM"] = weekly_stats["goals_FW"] = weekly_stats["assists"] =
+            weekly_stats["assists_DF"] = weekly_stats["assists_DM"] = weekly_stats["assists_MF"] =
+                weekly_stats["assists_DM"] = weekly_stats["assists_FW"] = weekly_stats["yellows"] =
+                    weekly_stats["reds"] = weekly_stats["injuries"] = 0;
 
-    vector<pair<string, int> > weekly_performers;
+    vector<pair<string, int>> weekly_performers;
 
     // For each line in the stats.dir file (that is, for each game stats to
     // update), open the relevant rosters and update the relevant players.
@@ -366,8 +353,7 @@ void update_rosters()
     while (getline(dir_file, line))
     {
         // delete spaces
-        line.erase(remove
-                   (line.begin(), line.end(), ' '), line.end());
+        line.erase(remove(line.begin(), line.end(), ' '), line.end());
 
         vector<string> parts = tokenize(line, "_");
 
@@ -391,23 +377,24 @@ void update_rosters()
 
         for (int team_n = 0; team_n <= 1; ++team_n)
         {
-			RosterPlayerArray players;
-            string roster_name = team_name[team_n] + ".txt";
+            RosterPlayerArray players;
+            string tn = team_name[team_n];
+            string roster_name = tn + ".json";
 
-            string msg = read_roster_players(roster_name, players);
-			
-			if (msg != "")
-			{
-				cerr << "Roster update error: " << msg << endl;
-				break;
-			}
+            string msg = read_roster(roster_name, players);
+
+            if (msg != "")
+            {
+                cerr << "Roster update error: " << msg << endl;
+                break;
+            }
 
             // For each player in the stats: look it up in the roster, and
             // update everything
             //
             for (int player_n = 0; player_n < num_players; ++player_n)
             {
-				RosterPlayerIterator player = get_player_by_name_from_roster(stats_teams[team_n][player_n].name, players);
+                RosterPlayerIterator player = get_player_by_name_from_roster(stats_teams[team_n][player_n].name, players);
 
                 if (player == players.end())
                     die("Player %s (from %s) not found in roster %s\n",
@@ -464,13 +451,13 @@ void update_rosters()
 
                     if (player->suspension == 1)
                         comm_line = the_commentary().rand_comment("UPDTR_SUSPENDED_1",
-                                    player->name.c_str(),
-                                    team_name[team_n].c_str());
+                                                                  player->name.c_str(),
+                                                                  team_name[team_n].c_str());
                     else
                         comm_line = the_commentary().rand_comment("UPDTR_SUSPENDED_N",
-                                    player->name.c_str(),
-                                    team_name[team_n].c_str(),
-                                    player->suspension);
+                                                                  player->name.c_str(),
+                                                                  team_name[team_n].c_str(),
+                                                                  player->suspension);
 
                     suspension_report.push_back(comm_line);
                 }
@@ -486,22 +473,22 @@ void update_rosters()
 
                     if (player->injury == 0)
                         comm_line = the_commentary().rand_comment("UPDTR_INJURY_NONE",
-                                    player->name.c_str(),
-                                    team_name[team_n].c_str());
+                                                                  player->name.c_str(),
+                                                                  team_name[team_n].c_str());
                     else if (player->injury == 1)
                         comm_line = the_commentary().rand_comment("UPDTR_INJURY_1",
-                                    player->name.c_str(),
-                                    team_name[team_n].c_str());
+                                                                  player->name.c_str(),
+                                                                  team_name[team_n].c_str());
                     else if (player->injury <= 4)
                         comm_line = the_commentary().rand_comment("UPDTR_INJURY_LIGHT",
-                                    player->name.c_str(),
-                                    team_name[team_n].c_str(),
-                                    player->injury);
+                                                                  player->name.c_str(),
+                                                                  team_name[team_n].c_str(),
+                                                                  player->injury);
                     else
                         comm_line = the_commentary().rand_comment("UPDTR_INJURY_HARD",
-                                    player->name.c_str(),
-                                    team_name[team_n].c_str(),
-                                    player->injury);
+                                                                  player->name.c_str(),
+                                                                  team_name[team_n].c_str(),
+                                                                  player->injury);
 
                     injury_report.push_back(comm_line);
                 }
@@ -539,7 +526,8 @@ void update_rosters()
                 weekly_performers.push_back(make_pair(name_and_team, perf_points));
             }
 
-            write_roster_players(roster_name, players);
+            Roster roster = {tn, players};
+            write_json_roster(roster_name, roster);
         }
 
         cout << "Rosters updated with stats " << line << endl;
@@ -562,8 +550,8 @@ void update_rosters()
 
     stats_report.push_back("\nTop performers:\n");
 
-    for (vector<pair<string, int> >::const_iterator it = weekly_performers.begin();
-            it != weekly_performers.end(); ++it)
+    for (vector<pair<string, int>>::const_iterator it = weekly_performers.begin();
+         it != weekly_performers.end(); ++it)
     {
         if (it - weekly_performers.begin() > 10)
             break;
@@ -572,11 +560,10 @@ void update_rosters()
     }
 }
 
-
 // Goes over all players in all teams listed in teams.dir and "transforms" them using
 // the provided transformer_proc
 //
-void transform_all_players(void (*transformer_proc)(RosterPlayerIterator&, string, void*), void* arg)
+void transform_all_players(void (*transformer_proc)(RosterPlayerIterator &, string, void *), void *arg)
 {
     ifstream dir_file("teams.dir");
 
@@ -584,7 +571,7 @@ void transform_all_players(void (*transformer_proc)(RosterPlayerIterator&, strin
         die("Failed to open file teams.dir\n");
 
     string line;
-	
+
     while (getline(dir_file, line))
     {
         // delete spaces
@@ -592,180 +579,169 @@ void transform_all_players(void (*transformer_proc)(RosterPlayerIterator&, strin
         string roster_name = line;
         string team_name = roster_name.substr(0, roster_name.find_first_of("."));
 
-		RosterPlayerArray players;
-		string msg = read_roster_players(roster_name, players);
-	
-		if (msg != "")
-		{
-			cerr << "Error reading roster " << team_name << ": " << msg << endl;
-			continue;
-		}
+        RosterPlayerArray players;
+        string msg = read_roster(roster_name, players);
+
+        if (msg != "")
+        {
+            cerr << "Error reading roster " << team_name << ": " << msg << endl;
+            continue;
+        }
 
         for (RosterPlayerIterator player = players.begin(); player != players.end(); ++player)
         {
-			transformer_proc(player, team_name, arg);
+            transformer_proc(player, team_name, arg);
         }
 
-        write_roster_players(roster_name, players);
-	}
+        Roster roster = {team_name, players};
+        write_json_roster(roster_name, roster);
+    }
 }
 
-
-void transformer_recover_fitness(RosterPlayerIterator& player, string team_name, void* arg)
+void transformer_recover_fitness(RosterPlayerIterator &player, string team_name, void *arg)
 {
-	bool* half = (bool*) arg;
-	
-	int gain = the_config().get_int_config("UPDTR_FITNESS_GAIN", 20);
-	if (*half) gain /= 2;
-	
-	player->fitness += gain;
-	
-	if (player->fitness > 100)
-		player->fitness = 100;
-}
+    bool *half = (bool *)arg;
 
+    int gain = the_config().get_int_config("UPDTR_FITNESS_GAIN", 20);
+    if (*half)
+        gain /= 2;
+
+    player->fitness += gain;
+
+    if (player->fitness > 100)
+        player->fitness = 100;
+}
 
 void recover_fitness(bool half)
 {
-	transform_all_players(transformer_recover_fitness, &half);
-	
+    transform_all_players(transformer_recover_fitness, &half);
+
     cout << "Fitness recovered (" << (half ? "50" : "100") << "%)\n";
 }
 
-
-void transformer_increase_ages(RosterPlayerIterator& player, string team_name, void*)
+void transformer_increase_ages(RosterPlayerIterator &player, string team_name, void *)
 {
-	player->age += 1;
+    player->age += 1;
 }
-
 
 void increase_ages()
 {
-	transform_all_players(transformer_increase_ages, 0);
-	cout << "Ages increased\n";
+    transform_all_players(transformer_increase_ages, 0);
+    cout << "Ages increased\n";
 }
 
-
-void transformer_reset_stats(RosterPlayerIterator& player, string team_name, void* arg)
+void transformer_reset_stats(RosterPlayerIterator &player, string team_name, void *arg)
 {
-	player->games = player->saves = player->tackles = player->keypasses = player->shots = player->goals = player->assists = player->dp = 0;
-	player->fitness = 100;
-	
-	unsigned* inj_sus_flag = (unsigned*) arg;
-	
-	if (*inj_sus_flag & INJURIES)
-		player->injury = 0;
-	
-	if (*inj_sus_flag & SUSPENSIONS)
-		player->suspension = 0;
-}
+    player->games = player->saves = player->tackles = player->keypasses = player->shots = player->goals = player->assists = player->dp = 0;
+    player->fitness = 100;
 
+    unsigned *inj_sus_flag = (unsigned *)arg;
+
+    if (*inj_sus_flag & INJURIES)
+        player->injury = 0;
+
+    if (*inj_sus_flag & SUSPENSIONS)
+        player->suspension = 0;
+}
 
 void reset_stats(unsigned inj_sus_flag)
 {
-	transform_all_players(transformer_reset_stats, &inj_sus_flag);
-	cout << "Stats reset\n";
-	
-	if (inj_sus_flag & INJURIES)
-		cout << "Injuries reset\n";
-	
-	if (inj_sus_flag & SUSPENSIONS)
-		cout << "Suspensions reset\n";
+    transform_all_players(transformer_reset_stats, &inj_sus_flag);
+    cout << "Stats reset\n";
+
+    if (inj_sus_flag & INJURIES)
+        cout << "Injuries reset\n";
+
+    if (inj_sus_flag & SUSPENSIONS)
+        cout << "Suspensions reset\n";
 }
 
-
-void transformer_decrease_sus_inj(RosterPlayerIterator& player, string team_name, void* arg)
+void transformer_decrease_sus_inj(RosterPlayerIterator &player, string team_name, void *arg)
 {
-	unsigned* inj_sus_flag = (unsigned*) arg;
-	
-	if (*inj_sus_flag & SUSPENSIONS)
-	{
-		// those with 0 will be decreased to -1, hence they will generate
-		// no report on "coming back".
-		//
-		player->suspension--;
+    unsigned *inj_sus_flag = (unsigned *)arg;
 
-		if (player->suspension == 0)
-			suspension_report.push_back(the_commentary().rand_comment("UPDTR_END_SUSPENSION",
-										player->name.c_str(),
-										team_name.c_str()));
-		else if (player->suspension < 0)
-			player->suspension = 0;
-	}
+    if (*inj_sus_flag & SUSPENSIONS)
+    {
+        // those with 0 will be decreased to -1, hence they will generate
+        // no report on "coming back".
+        //
+        player->suspension--;
 
-	if (*inj_sus_flag & INJURIES)
-	{
-		player->injury--;
+        if (player->suspension == 0)
+            suspension_report.push_back(the_commentary().rand_comment("UPDTR_END_SUSPENSION",
+                                                                      player->name.c_str(),
+                                                                      team_name.c_str()));
+        else if (player->suspension < 0)
+            player->suspension = 0;
+    }
 
-		if (player->injury == 0)
-		{
-			injury_report.push_back(the_commentary().rand_comment("UPDTR_END_INJURY",
-									player->name.c_str(),
-									team_name.c_str()));
+    if (*inj_sus_flag & INJURIES)
+    {
+        player->injury--;
 
-			player->fitness = the_config().get_int_config("UPDTR_FITNESS_AFTER_INJURY", 80);
-		}
-		else if (player->injury < 0)
-			player->injury = 0;
-	}
+        if (player->injury == 0)
+        {
+            injury_report.push_back(the_commentary().rand_comment("UPDTR_END_INJURY",
+                                                                  player->name.c_str(),
+                                                                  team_name.c_str()));
+
+            player->fitness = the_config().get_int_config("UPDTR_FITNESS_AFTER_INJURY", 80);
+        }
+        else if (player->injury < 0)
+            player->injury = 0;
+    }
 }
-
 
 void decrease_suspensions_injuries(unsigned inj_sus_flag)
 {
-	transform_all_players(transformer_decrease_sus_inj, &inj_sus_flag);
-	
-	if (inj_sus_flag & INJURIES)
-		cout << "Injuries decreased\n";
-	
-	if (inj_sus_flag & SUSPENSIONS)
-		cout << "Suspensions decreased\n";
+    transform_all_players(transformer_decrease_sus_inj, &inj_sus_flag);
+
+    if (inj_sus_flag & INJURIES)
+        cout << "Injuries decreased\n";
+
+    if (inj_sus_flag & SUSPENSIONS)
+        cout << "Suspensions decreased\n";
 }
 
-
-void make_leaders_report(const vector<player_stat>& list, string heading, string stat)
+void make_leaders_report(const vector<player_stat> &list, string heading, string stat)
 {
     leaders_report.push_back("\n\n" + heading + ":");
     leaders_report.push_back(format_str("\nName                 Games    %s\n"
-                                        "---------------------------------", stat.c_str()));
+                                        "---------------------------------",
+                                        stat.c_str()));
 
     for (int i = 0; i < min<int>(15, list.size()); ++i)
     {
         string name_and_team = list[i].name + " (" + list[i].team_name + ")";
         int the_stat =
-            (stat == "Gls") ? list[i].goals :
-            (stat == "Ass") ? list[i].assists :
-            (stat == "DPs") ? list[i].dp : list[i].perf_points;
+            (stat == "Gls") ? list[i].goals : (stat == "Ass") ? list[i].assists
+                                          : (stat == "DPs")   ? list[i].dp
+                                                              : list[i].perf_points;
 
         leaders_report.push_back(format_str("%-20s %5d  %5d", name_and_team.c_str(),
                                             list[i].games, the_stat));
     }
 }
 
-
-bool leaders_predicate_goals(const player_stat& p1, const player_stat& p2)
+bool leaders_predicate_goals(const player_stat &p1, const player_stat &p2)
 {
     return (p1.goals > p2.goals) || (p1.goals == p2.goals && p1.games < p2.games);
 }
 
-
-bool leaders_predicate_assists(const player_stat& p1, const player_stat& p2)
+bool leaders_predicate_assists(const player_stat &p1, const player_stat &p2)
 {
     return (p1.assists > p2.assists) || (p1.assists == p2.assists && p1.games < p2.games);
 }
 
-
-bool leaders_predicate_dps(const player_stat& p1, const player_stat& p2)
+bool leaders_predicate_dps(const player_stat &p1, const player_stat &p2)
 {
     return (p1.dp > p2.dp) || (p1.dp == p2.dp && p1.games < p2.games);
 }
 
-
-bool leaders_predicate_perf(const player_stat& p1, const player_stat& p2)
+bool leaders_predicate_perf(const player_stat &p1, const player_stat &p2)
 {
     return (p1.perf_points > p2.perf_points) || (p1.perf_points == p2.perf_points && p1.games < p2.games);
 }
-
 
 void generate_leaders(void)
 {
@@ -781,19 +757,18 @@ void generate_leaders(void)
     while (getline(dir_file, line))
     {
         // delete spaces
-        line.erase(remove
-                   (line.begin(), line.end(), ' '), line.end());
+        line.erase(remove(line.begin(), line.end(), ' '), line.end());
         string roster_name = line;
         string team_name = roster_name.substr(0, roster_name.find_first_of("."));
 
-		RosterPlayerArray players;
-		string msg = read_roster_players(roster_name, players);
-	
-		if (msg != "")
-		{
-			cerr << "Error in leaders generation: " << msg << endl;
-			continue;
-		}
+        RosterPlayerArray players;
+        string msg = read_roster(roster_name, players);
+
+        if (msg != "")
+        {
+            cerr << "Error in leaders generation: " << msg << endl;
+            continue;
+        }
 
         for (RosterPlayerIterator player = players.begin(); player != players.end(); ++player)
         {
@@ -830,7 +805,6 @@ void generate_leaders(void)
     cout << "Leaders generated\n";
 }
 
-
 void update_league_table(void)
 {
     league_table table;
@@ -852,11 +826,9 @@ void update_league_table(void)
         cout << "Something went wrong updating table.txt" << endl;
 }
 
-
 // suckz, but the needs of updtr are trivial.
 //
 int my_random(int n)
 {
     return rand() % n;
 }
-
