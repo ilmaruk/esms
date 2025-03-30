@@ -12,9 +12,7 @@
 
 using namespace std;
 
-
 extern bool waitflag;
-
 
 // Extract a vector of tokens from a string (str) delimited by delims
 //
@@ -46,7 +44,6 @@ vector<string> tokenize(string str, string delims)
     return ret;
 }
 
-
 // True if the given string consists only of whitespace
 //
 bool is_only_whitespace(string str)
@@ -57,9 +54,8 @@ bool is_only_whitespace(string str)
     return false;
 }
 
-
 // Printf an error message and exit
-void die(const char* fmt, ...)
+void die(const char *fmt, ...)
 {
     va_list args;
 
@@ -74,42 +70,36 @@ void die(const char* fmt, ...)
     MY_EXIT(2);
 }
 
-
 // Works like sprintf, but returns the resulting string in a
 // memory-safe manner
 //
-string format_str(const char* format, ...)
+string format_str(const char *format, ...)
 {
     va_list arglist;
     va_start(arglist, format);
-    char* buf = new char[4096];
+    char *buf = new char[4096];
 
 #ifdef WIN32
-	vsprintf_s(buf, 4095, format, arglist);
+    vsprintf_s(buf, 4095, format, arglist);
 #else
-    vsprintf(buf, format, arglist);
+    vsnprintf(buf, 4096 * sizeof(char), format, arglist);
 #endif
 
     string ret = buf;
-    delete [] buf;
+    delete[] buf;
     return ret;
 }
-
 
 int str_atoi(string str)
 {
     return atoi(str.c_str());
 }
 
-
 bool is_number(string str)
 {
-    if (find_if(str.begin(), str.end(), not1(ptr_fun(::isdigit))) != str.end())
-        return false;
-
-    return true;
+    return !(std::find_if(str.begin(), str.end(), [](unsigned char c)
+                          { return !std::isdigit(c); }) != str.end());
 }
-
 
 void MY_EXIT(int rc)
 {
@@ -121,6 +111,3 @@ void MY_EXIT(int rc)
 
     exit(rc);
 }
-
-
-

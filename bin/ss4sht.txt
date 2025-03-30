@@ -1,0 +1,23 @@
+ss4
+N
+
+GK A_Ednondi
+DFC T_Clooproors
+DFC F_Isyu
+DFC S_Ebso
+DFC U_Drudse
+MFC Q_Lindeme
+MFC C_Imnel
+MFC F_Ohae
+MFC G_Osyijhund
+FWC Q_Ickoortu
+FWC O_Tewvrabt
+
+GK O_Ryobti
+DFC U_Enhirt
+MFC G_Ertez
+DFC H_Iri
+FWC B_Asyurt
+
+PK: Q_Ickoortu
+

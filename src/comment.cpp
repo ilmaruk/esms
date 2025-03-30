@@ -2,7 +2,7 @@
 // Copyright (C) <1998-2005>  Eli Bendersky
 //
 // This program is free software, licensed with the GPL (www.fsf.org)
-// 
+//
 #include <map>
 #include <vector>
 #include <string>
@@ -15,15 +15,13 @@
 
 using namespace std;
 
-
 // get a reference to a static commentary (a singleton)
 //
-commentary& the_commentary(void)
+commentary &the_commentary(void)
 {
     static commentary tcfg;
     return tcfg;
 }
-
 
 // Initializes commentary data, reading it from the language.dat file
 //
@@ -39,7 +37,7 @@ void commentary::init_commentary(string language_file)
     // Read language.dat line by line, updating the
     // commentary database
     //
-    while(getline(infile, line))
+    while (getline(infile, line))
     {
         string event, comment;
         string::size_type index1, index2;
@@ -48,7 +46,7 @@ void commentary::init_commentary(string language_file)
         //
         index1 = line.find_first_of("[");
         index2 = line.find_first_of("]");
-        
+
         if ((index1 == string::npos) || (index2 == string::npos))
             continue;
 
@@ -64,14 +62,13 @@ void commentary::init_commentary(string language_file)
 
         comment = line.substr(index1 + 1, index2 - index1 - 1);
 
-        // Add line to the commentary database 
+        // Add line to the commentary database
         //
         comm_data[event].push_back(comment);
     }
 }
 
-
-string commentary::rand_comment(const char* event, ...)
+string commentary::rand_comment(const char *event, ...)
 {
     va_list arglist;
     va_start(arglist, event);
@@ -89,19 +86,19 @@ string commentary::rand_comment(const char* event, ...)
     int choice_num = rand() % num_of_choices;
     string comm_format = comm_data[str_event][choice_num];
 
-    char* buf = new char[4096];
-    vsprintf(buf, comm_format.c_str(), arglist);
+    char *buf = new char[4096];
+    vsnprintf(buf, 4096 * sizeof(char), comm_format.c_str(), arglist);
 
     string ret;
 
     // Convert the '\n's in the string into "real" newlines
     // which are recognized by the printing functions
     //
-    char* s1 = buf;
+    char *s1 = buf;
 
     for (; *s1; ++s1)
     {
-        if ((*s1 == '\\') && (*(s1+1) == 'n'))
+        if ((*s1 == '\\') && (*(s1 + 1) == 'n'))
         {
             ret += '\n';
             ++s1;
@@ -110,8 +107,6 @@ string commentary::rand_comment(const char* event, ...)
             ret += *s1;
     }
 
-    delete [] buf;
+    delete[] buf;
     return ret;
 }
-
-

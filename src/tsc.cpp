@@ -247,7 +247,7 @@ int main(int argc, char **argv)
         sub_pos_iter = (sub_pos_iter + 1) % 5;
     }
 
-    sprintf(teamsheetname, "%ssht.txt", teamname);
+    snprintf(teamsheetname, 200 * sizeof(char), "%ssht.txt", teamname);
 
     teamsheetfile = fopen(teamsheetname, "w");
 
