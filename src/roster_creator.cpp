@@ -252,11 +252,16 @@ int main(int argc, char *argv[])
              players_arr.end(),
              more_sh);
 
-        ostringstream os;
-        os << cfg_roster_name_prefix << roster_count << ".txt";
-        string filename = os.str();
-
-        write_roster_players(filename, players_arr);
+        {
+            ostringstream os;
+            os << cfg_roster_name_prefix << roster_count << ".txt";
+            write_roster_players(os.str(), players_arr);
+        }
+        {
+            ostringstream os;
+            os << cfg_roster_name_prefix << roster_count << ".json";
+            write_roster_as_json(os.str(), players_arr);
+        }
     }
 
     MY_EXIT(0);

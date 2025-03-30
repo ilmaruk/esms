@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+# IDEs
+**/.vscode/
+
+# Temp
+python/
+data/

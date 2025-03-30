@@ -1,6 +1,6 @@
 include makefile.linux
 
-CCFLAGS = $(MODE) -c -Wall -pedantic -ansi
+CCFLAGS = $(MODE) -c -Wall -pedantic -ansi -I../lib -std=c++14
 
 ESMS_O_FILES = \
 	rosterplayer.o comment.o penalty.o report_event.o esms.o cond_utils.o \
@@ -52,5 +52,6 @@ fixtures: $(FIXTURES_O_FILES)
 	$(CP_TOOL) fixtures $(CP_DEST)
 
 clean: 
-	\rm -f $(LGTABLE_O_FILES) $(FIXTURES_O_FILES) $(ESMS_O_FILES) $(UPDTR_O_FILES) $(TSC_O_FILES) tsc esms updtr lgtable fixtures
+	@rm -f $(LGTABLE_O_FILES) $(FIXTURES_O_FILES) $(ESMS_O_FILES) $(UPDTR_O_FILES) $(TSC_O_FILES) $(ROSTER_CREATOR_O_FILES) \
+		tsc esms updtr lgtable fixtures roster_creator
 
