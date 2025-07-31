@@ -37,17 +37,31 @@ bool write_teamsheet_as_text(const char *filename, const char *team_name, const 
     return true;
 }
 
-string write_teamsheet(const char *filename, const Teamsheet ts)
+bool write_teamsheet(string filename, const Teamsheet ts)
 {
-    ofstream fh(filename);
+    ofstream fh(filename.c_str());
 
     if (!fh)
-    {
-        return format_str("Failed to open teamsheet %s", filename);
-    }
+        return false;
 
     json j = ts;
     fh << j << endl;
 
-    return "";
+    return true;
+}
+
+bool read_teamsheet(string filename, Teamsheet &ts)
+{
+    ifstream fh(filename.c_str());
+
+    if (!fh)
+        return false;
+
+    json j;
+    fh >> j;
+    fh.close();
+
+    ts = j.get<Teamsheet>();
+
+    return true;
 }

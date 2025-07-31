@@ -234,18 +234,18 @@ int main(int argc, char **argv)
     printf("%s created successfully\n", teamsheet_filename.c_str());
 
     string teamsheet_filename_json = work_dir + "/" + team_name + "_sht.json";
-    std::vector<TeamsheetPlayer> field(t_player + 1, t_player + 12);
-    std::vector<TeamsheetPlayer> bench(t_player + 12, t_player + 12 + num_subs);
+    TeamsheetPlayerArray field(t_player + 1, t_player + 12);
+    TeamsheetPlayerArray bench(t_player + 12, t_player + 12 + num_subs);
     Teamsheet ts = {
         team_name,
         string(tactic),
         field,
         bench,
         t_player[last_mf + 1].name};
-    string msg;
-    if ((msg = write_teamsheet(teamsheet_filename_json.c_str(), ts)) != "")
+
+    if (!write_teamsheet(teamsheet_filename_json.c_str(), ts))
     {
-        die("Error writing teamsheet to %s: %s", teamsheet_filename_json.c_str(), msg.c_str());
+        die("Error writing teamsheet to %s", teamsheet_filename_json.c_str());
     }
     printf("%s created successfully\n", teamsheet_filename_json.c_str());
 

@@ -87,12 +87,14 @@ struct TeamsheetPlayer
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(TeamsheetPlayer, pos, name);
 };
 
+typedef vector<TeamsheetPlayer> TeamsheetPlayerArray;
+
 struct Teamsheet
 {
     string team_name;
     string tactic;
-    vector<TeamsheetPlayer> field;
-    vector<TeamsheetPlayer> bench;
+    TeamsheetPlayerArray field;
+    TeamsheetPlayerArray bench;
     string pk;
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Teamsheet, team_name, tactic, field, bench, pk);

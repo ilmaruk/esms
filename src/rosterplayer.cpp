@@ -15,16 +15,16 @@
 
 using json = nlohmann::json;
 
-bool read_roster(string roster_filename, vector<RosterPlayer> &players_arr)
+bool read_roster(string filename, RosterPlayerArray &players_arr)
 {
-    ifstream rosterfile(roster_filename.c_str());
+    ifstream fh(filename.c_str());
 
-    if (!rosterfile)
+    if (!fh)
         return false;
 
     json j;
-    rosterfile >> j;
-    rosterfile.close();
+    fh >> j;
+    fh.close();
 
     Roster roster = j.get<Roster>();
     players_arr = roster.players;
@@ -41,6 +41,7 @@ bool write_roster(string filename, Roster r)
 
     json j = r;
     fh << j << endl;
+    fh.close();
 
     return true;
 }
