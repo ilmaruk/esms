@@ -17,14 +17,14 @@ using json = nlohmann::json;
 
 const unsigned NUM_COLUMNS_IN_ROSTER = 25;
 
-/// Reads a roster from a JSON file into the vector of RosterPlayers.
-/// Returns "" on success, and an error message if something went wrong.
-///
-string read_roster(string roster_filename, RosterPlayerArray &players_arr);
+// Reads a roster from a JSON file into the vector of RosterPlayers.
+// Returns true on success, false otherwise.
+//
+bool read_roster(string filename, RosterPlayerArray &players_arr);
 
-/// Writes a vector of RosterPlayers into a JSON file.
-/// Returns "" on success, and an error message if something went wrong.
-///
-string write_json_roster(string roster_filename, Roster r);
+// Writes a vector of RosterPlayers into a JSON file.
+// Returns true on success, false otherwise.
+//
+bool write_roster(string filename, Roster r);
 
 #endif // ROSTERPLAYER_H_DEFINED

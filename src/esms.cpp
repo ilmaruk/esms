@@ -242,12 +242,17 @@ int main(int argc, char *argv[])
     string home_ros_name = work_dir + string(team[0].name) + ".json";
     string away_ros_name = work_dir + string(team[1].name) + ".json";
 
-    msg = read_roster(home_ros_name, team[0].roster_players);
+    if (!read_roster(home_ros_name, team[0].roster_players))
+    {
+        cerr << "Error reading roster from " << home_ros_name << endl;
+        MY_EXIT(1);
+    }
 
-    if (msg != "")
-        die(msg.c_str());
-
-    msg = read_roster(away_ros_name, team[1].roster_players);
+    if (!read_roster(away_ros_name, team[1].roster_players))
+    {
+        cerr << "Error reading roster from " << away_ros_name << endl;
+        MY_EXIT(1);
+    }
 
     if (msg != "")
         die(msg.c_str());

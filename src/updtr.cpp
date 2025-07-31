@@ -374,12 +374,10 @@ void update_rosters()
             string tn = team_name[team_n];
             string roster_name = tn + ".json";
 
-            string msg = read_roster(roster_name, players);
-
-            if (msg != "")
+            if (!read_roster(roster_name, players))
             {
-                cerr << "Roster update error: " << msg << endl;
-                break;
+                cerr << "Error reading roster from " << roster_name << endl;
+                MY_EXIT(1);
             }
 
             // For each player in the stats: look it up in the roster, and
@@ -520,7 +518,11 @@ void update_rosters()
             }
 
             Roster roster = {tn, players};
-            write_json_roster(roster_name, roster);
+            if (!write_roster(roster_name, roster))
+            {
+                cerr << "Error writing roster to " << roster_name << endl;
+                MY_EXIT(1);
+            }
         }
 
         cout << "Rosters updated with stats " << line << endl;
@@ -573,12 +575,10 @@ void transform_all_players(void (*transformer_proc)(RosterPlayerIterator &, stri
         string team_name = roster_name.substr(0, roster_name.find_first_of("."));
 
         RosterPlayerArray players;
-        string msg = read_roster(roster_name, players);
-
-        if (msg != "")
+        if (!read_roster(roster_name, players))
         {
-            cerr << "Error reading roster " << team_name << ": " << msg << endl;
-            continue;
+            cerr << "Error reading roster from " << roster_name << endl;
+            MY_EXIT(1);
         }
 
         for (RosterPlayerIterator player = players.begin(); player != players.end(); ++player)
@@ -587,7 +587,11 @@ void transform_all_players(void (*transformer_proc)(RosterPlayerIterator &, stri
         }
 
         Roster roster = {team_name, players};
-        write_json_roster(roster_name, roster);
+        if (!write_roster(roster_name, roster))
+        {
+            cerr << "Error writing roster to " << roster_name << endl;
+            MY_EXIT(1);
+        }
     }
 }
 
@@ -755,12 +759,10 @@ void generate_leaders(void)
         string team_name = roster_name.substr(0, roster_name.find_first_of("."));
 
         RosterPlayerArray players;
-        string msg = read_roster(roster_name, players);
-
-        if (msg != "")
+        if (!read_roster(roster_name, players))
         {
-            cerr << "Error in leaders generation: " << msg << endl;
-            continue;
+            cerr << "Error reading roster from " << roster_name << endl;
+            MY_EXIT(1);
         }
 
         for (RosterPlayerIterator player = players.begin(); player != players.end(); ++player)

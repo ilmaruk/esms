@@ -121,10 +121,11 @@ int main(int argc, char **argv)
     int sub_pos_iter = 0;
 
     RosterPlayerArray players;
-    string msg = read_roster(roster_file, players);
-
-    if (msg != "")
-        die(msg.c_str());
+    if (!read_roster(roster_file, players))
+    {
+        cerr << "Error reading roster from " << roster_file << endl;
+        MY_EXIT(1);
+    }
 
     if (static_cast<int>(players.size()) < 11 + num_subs)
         die("Error: not enough players in roster\n");
@@ -235,14 +236,13 @@ int main(int argc, char **argv)
     string teamsheet_filename_json = work_dir + "/" + team_name + "_sht.json";
     std::vector<TeamsheetPlayer> field(t_player + 1, t_player + 12);
     std::vector<TeamsheetPlayer> bench(t_player + 12, t_player + 12 + num_subs);
-    // std::vector<TeamsheetPlayer> field(std::begin(t_player), std::end(t_player));
-    // std::vector<TeamsheetPlayer> bench(std::begin(t_player), std::end(t_player));
     Teamsheet ts = {
         team_name,
         string(tactic),
         field,
         bench,
         t_player[last_mf + 1].name};
+    string msg;
     if ((msg = write_teamsheet(teamsheet_filename_json.c_str(), ts)) != "")
     {
         die("Error writing teamsheet to %s: %s", teamsheet_filename_json.c_str(), msg.c_str());

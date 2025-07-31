@@ -252,10 +252,13 @@ int main(int argc, char *argv[])
         string filename = os.str();
         Roster roster = {fn.str(), players_arr};
 
-        write_json_roster(filename, roster);
+        if (!write_roster(filename, roster))
+        {
+            cerr << "Error writing roster to " << filename << endl;
+            MY_EXIT(1);
+        }
     }
 
-    MY_EXIT(0);
     return 0;
 }
 
