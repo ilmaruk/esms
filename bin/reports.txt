@@ -1,0 +1,15 @@
+
+ss1 3 - 0 ss2
+S_Adsuds (ss1) 50'
+Inj: X_Breriki (ss1) 63'
+W_Hoatyosk (ss1) 67'
+N_Jiks (ss1) 70'
+
+
+ss1 2 - 1 ss2
+A_Unyusht (ss2) 14'
+M_Mus (ss1) 15'
+Inj: Q_Stuvre (ss1) 58'
+Red: R_Shapoe (ss2) 88'
+S_Adsuds (ss1) 90'
+

@@ -13,7 +13,7 @@ ESMS_SRC := $(SRC_DIR)/esms.cpp $(SRC_DIR)/config.cpp $(SRC_DIR)/rosterplayer.cp
 			$(SRC_DIR)/penalty.cpp $(SRC_DIR)/report_event.cpp $(SRC_DIR)/esms.cpp $(SRC_DIR)/cond_utils.cpp \
 			$(SRC_DIR)/teamsheet_reader.cpp $(SRC_DIR)/cond_action.cpp $(SRC_DIR)/cond_condition.cpp \
 			$(SRC_DIR)/util.cpp $(SRC_DIR)/cond.cpp $(SRC_DIR)/mt.cpp $(SRC_DIR)/config.cpp \
-			$(SRC_DIR)/tactics.cpp $(SRC_DIR)/anyoption.cpp
+			$(SRC_DIR)/tactics.cpp $(SRC_DIR)/anyoption.cpp $(SRC_DIR)/teamsheet.cpp
 UPDTR_SRC := $(SRC_DIR)/rosterplayer.cpp $(SRC_DIR)/updtr.cpp $(SRC_DIR)/util.cpp \
 			 $(SRC_DIR)/anyoption.cpp $(SRC_DIR)/config.cpp $(SRC_DIR)/comment.cpp $(SRC_DIR)/league_table.cpp
 LGTABLE_SRC := $(SRC_DIR)/lgtable.cpp $(SRC_DIR)/league_table.cpp $(SRC_DIR)/util.cpp $(SRC_DIR)/anyoption.cpp
