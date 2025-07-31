@@ -19,10 +19,6 @@
 
 using namespace std;
 
-// whether there is a wait on exit
-//
-bool waitflag = true;
-
 // These reports are filled in by the various updating functions,
 // and printed to one file in the end
 //
@@ -44,9 +40,6 @@ int main(int argc, char *argv[])
 
     opt->setFlag("no_wait_on_exit");
     opt->processCommandArgs(argc, argv);
-
-    if (opt->getFlag("no_wait_on_exit"))
-        waitflag = false;
 
     int option = 0;
 

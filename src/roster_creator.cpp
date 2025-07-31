@@ -22,10 +22,6 @@ using namespace std;
 #include "rosterplayer.h"
 #include "anyoption.h"
 
-// whether there is a wait on exit
-//
-bool waitflag = true;
-
 char nationalities[20][4] = {"arg", "aus", "bra", "bul",
                              "cam", "cro", "den", "eng",
                              "fra", "ger", "hol", "ire",
@@ -77,9 +73,6 @@ int main(int argc, char *argv[])
     if (opt->getValue("seed"))
         seed = atol(opt->getValue("seed"));
     srand(seed);
-
-    if (opt->getFlag("no_wait_on_exit"))
-        waitflag = false;
 
     fill_gaussian_vars_arr(gaussian_vars, N_GAUSS);
 

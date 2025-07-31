@@ -64,10 +64,6 @@ int yellow_carded[2];
 int red_carded[2];
 int injured_ind[2];
 
-// whether there is a wait on exit
-//
-bool waitflag = true;
-
 /// "Gross" game minute.
 ///
 /// From 1 to 45 + extra time in the first half, and from
@@ -150,9 +146,6 @@ int main(int argc, char *argv[])
         work_dir = opt->getValue("work_dir");
     else
         work_dir = "";
-
-    if (opt->getFlag("no_wait_on_exit"))
-        waitflag = false;
 
     FILE *store_random = 0;
 

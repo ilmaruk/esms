@@ -15,10 +15,6 @@
 #include "util.h"
 #include "config.h"
 
-// wait on exit
-//
-bool waitflag = true;
-
 inline int st_getter(RosterPlayerConstIterator player)
 {
     return player->st * player->fitness / 100;

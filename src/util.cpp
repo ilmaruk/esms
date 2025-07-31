@@ -12,8 +12,6 @@
 
 using namespace std;
 
-extern bool waitflag;
-
 // Extract a vector of tokens from a string (str) delimited by delims
 //
 vector<string> tokenize(string str, string delims)
@@ -103,11 +101,5 @@ bool is_number(string str)
 
 void MY_EXIT(int rc)
 {
-    if (waitflag)
-    {
-        printf("\nPress Enter\n");
-        getchar();
-    }
-
     exit(rc);
 }

@@ -2,26 +2,20 @@
 // Copyright (C) <1998-2005>  Eli Bendersky
 //
 // This program is free software, licensed with the GPL (www.fsf.org)
-// 
+//
 #include <cstdlib>
 #include "league_table.h"
 #include "anyoption.h"
-
-
-// wait on exit ?
-//
-bool waitflag = true;
-
 
 //
 // This is just a simple, independent driver for league_table
 //
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     // handling/parsing command line arguments
     //
-    AnyOption* opt = new AnyOption();
+    AnyOption *opt = new AnyOption();
     opt->noPOSIX();
 
     opt->setOption("work_dir");
@@ -32,9 +26,6 @@ int main(int argc, char* argv[])
     opt->processCommandArgs(argc, argv);
 
     string work_dir;
-
-    if (opt->getFlag("no_wait_on_exit"))
-        waitflag = false;
 
     if (opt->getValue("work_dir"))
         work_dir = opt->getValue("work_dir");
