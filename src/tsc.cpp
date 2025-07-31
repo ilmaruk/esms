@@ -16,26 +16,7 @@
 #include "config.h"
 #include "anyoption.h"
 #include "teamsheet.h"
-
-inline int st_getter(RosterPlayerConstIterator player)
-{
-    return player->st * player->fitness / 100;
-}
-
-inline int tk_getter(RosterPlayerConstIterator player)
-{
-    return player->tk * player->fitness / 100;
-}
-
-inline int ps_getter(RosterPlayerConstIterator player)
-{
-    return player->ps * player->fitness / 100;
-}
-
-inline int sh_getter(RosterPlayerConstIterator player)
-{
-    return player->sh * player->fitness / 100;
-}
+#include "models.h"
 
 /// Gets the best player on some position from an array of roster players.
 ///

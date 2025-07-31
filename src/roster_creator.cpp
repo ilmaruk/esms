@@ -21,6 +21,7 @@ using namespace std;
 #include "config.h"
 #include "rosterplayer.h"
 #include "anyoption.h"
+#include "models.h"
 
 char nationalities[20][4] = {"arg", "aus", "bra", "bul",
                              "cam", "cro", "den", "eng",
@@ -60,13 +61,11 @@ bool more_sh(const RosterPlayer &p1, const RosterPlayer &p2)
 
 int main(int argc, char *argv[])
 {
-    // handling/parsing command line arguments
-    //
     AnyOption *opt = new AnyOption();
     opt->noPOSIX();
 
-    opt->setFlag("no_wait_on_exit");
     opt->setOption("seed");
+    opt->setOption("work-dir");
     opt->processCommandArgs(argc, argv);
 
     long seed = time(NULL);
@@ -102,7 +101,7 @@ int main(int argc, char *argv[])
 
     for (int roster_count = 1; roster_count <= cfg_n_rosters; ++roster_count)
     {
-        RosterPlayerArray players_arr;
+        vector<RosterPlayer> players_arr;
 
         for (int pl_count = 1; pl_count <= n_players; ++pl_count)
         {

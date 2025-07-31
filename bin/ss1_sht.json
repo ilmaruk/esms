@@ -1,73 +1,73 @@
 {
     "bench": [
         {
-            "name": "A_Ivracu",
+            "name": "U_Dakredni",
             "pos": "GK"
         },
         {
-            "name": "I_Odsendars",
+            "name": "P_Boimno",
             "pos": "DFC"
         },
         {
-            "name": "O_Uvre",
+            "name": "R_Kiryoe",
             "pos": "MFC"
         },
         {
-            "name": "J_Oblerto",
+            "name": "Q_Btoirsedru",
             "pos": "DFC"
         },
         {
-            "name": "Z_Idov",
+            "name": "J_Kaebtuash",
             "pos": "FWC"
         }
     ],
     "field": [
         {
-            "name": "D_Tujha",
+            "name": "Z_Claelisy",
             "pos": "GK"
         },
         {
-            "name": "G_Orsooskevr",
+            "name": "C_Fowrstibt",
             "pos": "DFC"
         },
         {
-            "name": "P_Jevrursa",
+            "name": "X_Breriki",
             "pos": "DFC"
         },
         {
-            "name": "O_Obtoh",
+            "name": "T_Eclikravr",
             "pos": "DFC"
         },
         {
-            "name": "V_Modnul",
+            "name": "Q_Stuvre",
             "pos": "DFC"
         },
         {
-            "name": "W_Umnoajhoe",
+            "name": "Y_Orsu",
             "pos": "MFC"
         },
         {
-            "name": "F_Daekri",
+            "name": "N_Jiks",
             "pos": "MFC"
         },
         {
-            "name": "F_Urstewsk",
+            "name": "U_Onhe",
             "pos": "MFC"
         },
         {
-            "name": "P_Ushtipr",
-            "pos": "MFC"
-        },
-        {
-            "name": "A_Yodrevr",
+            "name": "M_Mus",
             "pos": "FWC"
         },
         {
-            "name": "F_Kuproha",
+            "name": "W_Hoatyosk",
+            "pos": "FWC"
+        },
+        {
+            "name": "S_Adsuds",
             "pos": "FWC"
         }
     ],
-    "pk": "A_Yodrevr",
-    "tactic": "N",
+    "pk": "M_Mus",
+    "tactic": "A",
     "team_name": "ss1"
 }

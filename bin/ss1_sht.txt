@@ -1,23 +1,23 @@
 ss1
-N
+A
 
-GK D_Tujha
-DFC G_Orsooskevr
-DFC P_Jevrursa
-DFC O_Obtoh
-DFC V_Modnul
-MFC W_Umnoajhoe
-MFC F_Daekri
-MFC F_Urstewsk
-MFC P_Ushtipr
-FWC A_Yodrevr
-FWC F_Kuproha
+GK Z_Claelisy
+DFC C_Fowrstibt
+DFC X_Breriki
+DFC T_Eclikravr
+DFC Q_Stuvre
+MFC Y_Orsu
+MFC N_Jiks
+MFC U_Onhe
+FWC M_Mus
+FWC W_Hoatyosk
+FWC S_Adsuds
 
-GK A_Ivracu
-DFC I_Odsendars
-MFC O_Uvre
-DFC J_Oblerto
-FWC Z_Idov
+GK U_Dakredni
+DFC P_Boimno
+MFC R_Kiryoe
+DFC Q_Btoirsedru
+FWC J_Kaebtuash
 
-PK: A_Yodrevr
+PK: M_Mus
 

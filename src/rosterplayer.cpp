@@ -16,7 +16,7 @@
 using json = nlohmann::json;
 
 string
-read_roster(string roster_filename, RosterPlayerArray &players_arr)
+read_roster(string roster_filename, vector<RosterPlayer> &players_arr)
 {
     ifstream rosterfile(roster_filename.c_str());
 
