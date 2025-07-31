@@ -15,6 +15,7 @@
 #include "util.h"
 #include "config.h"
 #include "anyoption.h"
+#include "teamsheet.h"
 
 inline int st_getter(RosterPlayerConstIterator player)
 {
@@ -114,8 +115,6 @@ int main(int argc, char **argv)
         cout << "Usage: tsc --work-dir <work-dir> --roster-file <roster-file> --formation <formation>\n";
         MY_EXIT(1);
     }
-
-    FILE *teamsheetfile;
 
     int i, j;
 
@@ -245,30 +244,29 @@ int main(int argc, char **argv)
     }
 
     string teamsheet_filename = work_dir + "/" + team_name + "_sht.txt";
-
-    teamsheetfile = fopen(teamsheet_filename.c_str(), "w");
-
-    // Start filling the team sheet with the roster name and the
-    // tactic
-    //
-    fprintf(teamsheetfile, "%s\n", team_name.c_str());
-    fprintf(teamsheetfile, "%s\n", tactic);
-
-    /* Print all the players and their position */
-    for (i = 1; i <= 11 + num_subs; i++)
+    if (!write_teamsheet_as_text(teamsheet_filename.c_str(), team_name.c_str(),
+                                 tactic, t_player, num_subs, last_mf))
     {
-        fprintf(teamsheetfile, "\n%s %s", t_player[i].pos.c_str(), t_player[i].name.c_str());
-
-        if (i == 11)
-            fprintf(teamsheetfile, "\n");
+        die("Error writing teamsheet to %s", teamsheet_filename.c_str());
     }
-
-    /* Print the penalty kick taker (player number last_mf + 1) */
-    fprintf(teamsheetfile, "\n\nPK: %s\n\n", t_player[last_mf + 1].name.c_str());
-
     printf("%s created successfully\n", teamsheet_filename.c_str());
 
-    fclose(teamsheetfile);
+    string teamsheet_filename_json = work_dir + "/" + team_name + "_sht.json";
+    std::vector<TeamsheetPlayer> field(t_player + 1, t_player + 12);
+    std::vector<TeamsheetPlayer> bench(t_player + 12, t_player + 12 + num_subs);
+    // std::vector<TeamsheetPlayer> field(std::begin(t_player), std::end(t_player));
+    // std::vector<TeamsheetPlayer> bench(std::begin(t_player), std::end(t_player));
+    Teamsheet ts = {
+        team_name,
+        string(tactic),
+        field,
+        bench,
+        t_player[last_mf + 1].name};
+    if ((msg = write_teamsheet(teamsheet_filename_json.c_str(), ts)) != "")
+    {
+        die("Error writing teamsheet to %s: %s", teamsheet_filename_json.c_str(), msg.c_str());
+    }
+    printf("%s created successfully\n", teamsheet_filename_json.c_str());
 
     return 0;
 }

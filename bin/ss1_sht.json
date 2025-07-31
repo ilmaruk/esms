@@ -1,0 +1,73 @@
+{
+    "bench": [
+        {
+            "name": "A_Ivracu",
+            "pos": "GK"
+        },
+        {
+            "name": "I_Odsendars",
+            "pos": "DFC"
+        },
+        {
+            "name": "O_Uvre",
+            "pos": "MFC"
+        },
+        {
+            "name": "J_Oblerto",
+            "pos": "DFC"
+        },
+        {
+            "name": "Z_Idov",
+            "pos": "FWC"
+        }
+    ],
+    "field": [
+        {
+            "name": "D_Tujha",
+            "pos": "GK"
+        },
+        {
+            "name": "G_Orsooskevr",
+            "pos": "DFC"
+        },
+        {
+            "name": "P_Jevrursa",
+            "pos": "DFC"
+        },
+        {
+            "name": "O_Obtoh",
+            "pos": "DFC"
+        },
+        {
+            "name": "V_Modnul",
+            "pos": "DFC"
+        },
+        {
+            "name": "W_Umnoajhoe",
+            "pos": "MFC"
+        },
+        {
+            "name": "F_Daekri",
+            "pos": "MFC"
+        },
+        {
+            "name": "F_Urstewsk",
+            "pos": "MFC"
+        },
+        {
+            "name": "P_Ushtipr",
+            "pos": "MFC"
+        },
+        {
+            "name": "A_Yodrevr",
+            "pos": "FWC"
+        },
+        {
+            "name": "F_Kuproha",
+            "pos": "FWC"
+        }
+    ],
+    "pk": "A_Yodrevr",
+    "tactic": "N",
+    "team_name": "ss1"
+}
