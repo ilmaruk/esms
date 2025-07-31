@@ -1,8 +1,0 @@
-CC = g++
-CP_TOOL = cp -f 
-CP_DEST = ../bin/
-
-# Mode (-g or -O), so to compile with optimizations I just run:
-# make "MODE = -O2"
-#
-MODE = -g
