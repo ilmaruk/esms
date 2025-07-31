@@ -14,6 +14,7 @@
 #include "rosterplayer.h"
 #include "util.h"
 #include "config.h"
+#include "anyoption.h"
 
 inline int st_getter(RosterPlayerConstIterator player)
 {
@@ -65,65 +66,62 @@ string choose_best_player(const RosterPlayerArray &players,
     return name_of_best;
 }
 
+const char *WORK_DIR_ARG = "work-dir";
+const char *TEAM_NAME_ARG = "team-name";
+const char *FORMATION_ARG = "formation";
+
 int main(int argc, char **argv)
 {
-    FILE *teamsheetfile;
+    AnyOption *opt = new AnyOption();
+    opt->noPOSIX();
 
-    char teamname[200], filename[200], teamsheetname[200];
-    int i, j;
+    opt->setOption(WORK_DIR_ARG);
+    opt->setOption(TEAM_NAME_ARG);
+    opt->setOption(FORMATION_ARG);
+    opt->processCommandArgs(argc, argv);
 
-    char formation[200];
-    TeamsheetPlayer t_player[25];
-
-    the_config().load_config_file("league.dat");
-
-    // Arguments:
-    //
-    // tsc [file name] [formation+tactic]
-    //
-    // Either we get no arguments, and then we ask to enter
-    // the filename and formation manually, or we get 2
-    // arguments - filename and formation
-    //
-    if (argc == 1)
+    string work_dir, config_file;
+    if (opt->getValue(WORK_DIR_ARG))
     {
-        printf("Enter the roster file name --> ");
-        if (fgets(filename, 200, stdin) == NULL)
-            die("Read error");
-        chomp(filename);
-
-        printf("Pick a formation & tactic (for example 442N) --> ");
-        if (fgets(formation, 200, stdin) == NULL)
-            die("Read error");
-        chomp(formation);
-    }
-    else if (argc == 3)
-    {
-        strcpy(filename, argv[1]);
-        strcpy(formation, argv[2]);
+        work_dir = opt->getValue(WORK_DIR_ARG);
+        config_file = work_dir + "/league.dat";
     }
     else
     {
-        printf("Usage:\n\ntsc [<filename> <formation & tactic> [0]]\n");
-        MY_EXIT(0);
-    }
-
-    // prepare the team name from the file name
-    // file name is [team name].txt
-    //
-    strcpy(teamname, filename);
-
-    char *p = strstr(teamname, ".json");
-
-    if (p)
-    {
-        *p = '\0';
-    }
-    else
-    {
-        printf("Roster file name must end with .json\n");
+        cout << "Usage: tsc --work-dir <work-dir> --roster-file <roster-file> --formation <formation>\n";
         MY_EXIT(1);
     }
+
+    string team_name, roster_file;
+    if (opt->getValue(TEAM_NAME_ARG))
+    {
+        team_name = opt->getValue(TEAM_NAME_ARG);
+        roster_file = work_dir + "/" + team_name + ".json";
+    }
+    else
+    {
+        cout << "Usage: tsc --work-dir <work-dir> --roster-file <roster-file> --formation <formation>\n";
+        MY_EXIT(1);
+    }
+
+    string formation;
+    if (opt->getValue(FORMATION_ARG))
+    {
+        formation = opt->getValue(FORMATION_ARG);
+    }
+    else
+    {
+        cout << "Usage: tsc --work-dir <work-dir> --roster-file <roster-file> --formation <formation>\n";
+        MY_EXIT(1);
+    }
+
+    FILE *teamsheetfile;
+
+    int i, j;
+
+    TeamsheetPlayer t_player[25];
+
+    the_config().load_config_file(config_file);
 
     int num_subs = the_config().get_int_config("NUM_SUBS", 7);
 
@@ -143,7 +141,7 @@ int main(int argc, char **argv)
     int sub_pos_iter = 0;
 
     RosterPlayerArray players;
-    string msg = read_roster(filename, players);
+    string msg = read_roster(roster_file, players);
 
     if (msg != "")
         die(msg.c_str());
@@ -154,7 +152,10 @@ int main(int argc, char **argv)
     int dfs, mfs, fws;
     char tactic[2];
 
-    parse_formation(formation, dfs, mfs, fws, tactic);
+    if (!parse_formation(formation.c_str(), dfs, mfs, fws, tactic))
+    {
+        MY_EXIT(1);
+    }
 
     // Calculate indices of the last defender and the last midfielder
     //
@@ -243,14 +244,14 @@ int main(int argc, char **argv)
         sub_pos_iter = (sub_pos_iter + 1) % 5;
     }
 
-    snprintf(teamsheetname, 200 * sizeof(char), "%ssht.txt", teamname);
+    string teamsheet_filename = work_dir + "/" + team_name + "_sht.txt";
 
-    teamsheetfile = fopen(teamsheetname, "w");
+    teamsheetfile = fopen(teamsheet_filename.c_str(), "w");
 
     // Start filling the team sheet with the roster name and the
     // tactic
     //
-    fprintf(teamsheetfile, "%s\n", teamname);
+    fprintf(teamsheetfile, "%s\n", team_name.c_str());
     fprintf(teamsheetfile, "%s\n", tactic);
 
     /* Print all the players and their position */
@@ -265,11 +266,9 @@ int main(int argc, char **argv)
     /* Print the penalty kick taker (player number last_mf + 1) */
     fprintf(teamsheetfile, "\n\nPK: %s\n\n", t_player[last_mf + 1].name.c_str());
 
-    printf("%s created successfully\n", teamsheetname);
+    printf("%s created successfully\n", teamsheet_filename.c_str());
 
     fclose(teamsheetfile);
-
-    MY_EXIT(0);
 
     return 0;
 }
@@ -290,14 +289,14 @@ void chomp(char *str)
 //
 // For example: 442N means 4 DFs, 4 MFs, 2 FWs, playing N
 //
-void parse_formation(char *formation, int &dfs, int &mfs,
+bool parse_formation(const char *formation, int &dfs, int &mfs,
                      int &fws, char *tactic)
 {
     if (strlen(formation) != 4)
     {
         printf("The formation string must be exactly 4 characters long\n");
         printf("For example: 442N\n");
-        MY_EXIT(0);
+        return false;
     }
 
     // Random formation ?
@@ -324,7 +323,7 @@ void parse_formation(char *formation, int &dfs, int &mfs,
         tactic[0] = formation[3];
         tactic[1] = '\0';
 
-        return;
+        return true;
     }
 
     dfs = formation[0] - '0';
@@ -342,8 +341,10 @@ void parse_formation(char *formation, int &dfs, int &mfs,
     {
         printf("The number of players on all positions added together must be 10\n");
         printf("For example: 442N\n");
-        MY_EXIT(0);
+        return false;
     }
+
+    return true;
 }
 
 void verify_position_range(int n)

@@ -11,15 +11,13 @@
 #include "config.h"
 #include "util.h"
 
-
 // get a reference to a static config (a singleton)
 //
-config& the_config()
+config &the_config()
 {
     static config tcfg;
     return tcfg;
 }
-
 
 void config::load_config_file(string filename)
 {
@@ -31,9 +29,7 @@ void config::load_config_file(string filename)
     //
     if (!infile)
     {
-        cout << "Failed to open config file " << filename << endl;
-        cout << "\nPress Enter" << endl;
-        getchar();
+        cout << "Failed to open config file '" << filename << "'" << endl;
         MY_EXIT(2);
     }
 
@@ -44,16 +40,13 @@ void config::load_config_file(string filename)
     string line;
     bool abbr_mode = false;
 
-    while(getline(infile, line))
+    while (getline(infile, line))
     {
         // Preprocess line - erase whitespace
         //
-        line.erase(remove
-                   (line.begin(), line.end(), ' '), line.end());
-        line.erase(remove
-                   (line.begin(), line.end(), '\t'), line.end());
-        line.erase(remove
-                   (line.begin(), line.end(), '\r'), line.end());
+        line.erase(remove(line.begin(), line.end(), ' '), line.end());
+        line.erase(remove(line.begin(), line.end(), '\t'), line.end());
+        line.erase(remove(line.begin(), line.end(), '\r'), line.end());
 
         vector<string> tokens = tokenize(line, "=");
 
@@ -93,12 +86,10 @@ void config::load_config_file(string filename)
     return;
 }
 
-
 void config::set_config_value(string key, string value)
 {
     config_map[key] = value;
 }
-
 
 string config::get_config_value(string key)
 {
@@ -108,7 +99,6 @@ string config::get_config_value(string key)
         return config_map[key];
 }
 
-
 int config::get_int_config(string key, int dflt)
 {
     if (config_map.find(key) == config_map.end())
@@ -116,4 +106,3 @@ int config::get_int_config(string key, int dflt)
     else
         return atoi(config_map[key].c_str());
 }
-

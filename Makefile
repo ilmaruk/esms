@@ -18,7 +18,8 @@ UPDTR_SRC := $(SRC_DIR)/rosterplayer.cpp $(SRC_DIR)/updtr.cpp $(SRC_DIR)/util.cp
 			 $(SRC_DIR)/anyoption.cpp $(SRC_DIR)/config.cpp $(SRC_DIR)/comment.cpp $(SRC_DIR)/league_table.cpp
 LGTABLE_SRC := $(SRC_DIR)/lgtable.cpp $(SRC_DIR)/league_table.cpp $(SRC_DIR)/util.cpp $(SRC_DIR)/anyoption.cpp
 FIXTURES_SRC := $(SRC_DIR)/fixtures.cpp $(SRC_DIR)/util.cpp $(SRC_DIR)/anyoption.cpp
-TSC_SRC := $(SRC_DIR)/tsc.cpp $(SRC_DIR)/rosterplayer.cpp $(SRC_DIR)/util.cpp $(SRC_DIR)/config.cpp
+TSC_SRC := $(SRC_DIR)/tsc.cpp $(SRC_DIR)/rosterplayer.cpp $(SRC_DIR)/util.cpp $(SRC_DIR)/config.cpp \
+		   $(SRC_DIR)/anyoption.cpp
 ROSTER_CREATOR_SRC := $(SRC_DIR)/roster_creator.cpp $(SRC_DIR)/rosterplayer.cpp \
 					  $(SRC_DIR)/anyoption.cpp $(SRC_DIR)/config.o $(SRC_DIR)/util.cpp
 
