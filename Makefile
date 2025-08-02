@@ -3,8 +3,9 @@ OBJ_DIR := obj
 INC_DIR := include
 BIN_DIR := bin
 
-CXX := g++
-CXXFLAGS := -Wall -Wextra -pedantic -ansi -std=c++17 -O2 -I$(INC_DIR)
+#CXX := g++
+CXX := clang++
+CXXFLAGS := -Wall -Wextra -pedantic -ansi -std=c++17 -stdlib=libc++ -O2 -I$(INC_DIR)
 
 # Source files
 

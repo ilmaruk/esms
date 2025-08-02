@@ -14,8 +14,12 @@
 #include <cmath>
 #include <climits>
 #include <cctype>
+#include <locale>
+#include <codecvt>
+#include "dasmig/namegen.hpp"
 
 using namespace std;
+using ng = dasmig::ng;
 
 #include "util.h"
 #include "config.h"
@@ -74,6 +78,8 @@ int main(int argc, char *argv[])
     srand(seed);
 
     fill_gaussian_vars_arr(gaussian_vars, N_GAUSS);
+
+    ng::instance().load(".resources");
 
     the_config().load_config_file("roster_creator_cfg.txt");
 
@@ -338,6 +344,10 @@ bool throw_with_prob(unsigned prob)
 //
 string gen_random_name(void)
 {
+    auto name = ng::instance().get_name(ng::gender::m, ng::culture::any).append_surname();
+    wstring_convert<codecvt_utf8<wchar_t>> conv;
+    return conv.to_bytes(name);
+
     string vowelish = "a,o,e,i,u";
     string vowelish_not_begin = "ew,ow,oo,oa,oi,oe,ae,ua";
     string consonantish =

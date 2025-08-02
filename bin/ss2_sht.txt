@@ -1,23 +1,23 @@
 ss2
-D
+N
 
-GK S_Yejh
-DFC R_Shapoe
-DFC C_Ebsirst
-DFC N_Himnunoi
-DFC Y_Lowvaez
-MFC J_Aksoe
-MFC K_Yegrooks
-MFC P_Drowsh
-MFC F_Abtebsu
-MFC H_Brend
-FWC A_Unyusht
+GK Mohamad Moran
+DFC Yolcu Bozdogan
+DFC Plamen Spaasov
+DFC Israel Uscanga
+DFC Joachim Ãzcan
+MFC Helder Escoffier
+MFC Ondra Burian
+MFC Marius Fagernes
+MFC Alva Mejia
+FWC Cohen George
+FWC Leonardo Sarsa
 
-GK Q_Nakrewgr
-DFC V_Adsihart
-MFC W_Laerstua
-DFC N_Enhisyu
-FWC B_Ablot
+GK Aldair Mukanov
+DFC Sophus Lambertsen
+MFC Jan-Emil FrÃ¶jd
+DFC Jules Farmer
+FWC Peter Shepherd
 
-PK: A_Unyusht
+PK: Cohen George
 

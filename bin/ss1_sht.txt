@@ -1,23 +1,23 @@
 ss1
 A
 
-GK Z_Claelisy
-DFC C_Fowrstibt
-DFC X_Breriki
-DFC T_Eclikravr
-DFC Q_Stuvre
-MFC Y_Orsu
-MFC N_Jiks
-MFC U_Onhe
-FWC M_Mus
-FWC W_Hoatyosk
-FWC S_Adsuds
+GK Nilo SÃ¶derblom
+DFC Å½elimir Perkovic
+DFC Haijun Kong
+DFC Haijun Mu
+DFC Antonio Francisco Rangelov
+MFC Bozan Zengin
+MFC Frederik Wolter
+MFC Miles Marcoux
+FWC Luigi Parker
+FWC Dan Nordeide
+FWC Rashid Als
 
-GK U_Dakredni
-DFC P_Boimno
-MFC R_Kiryoe
-DFC Q_Btoirsedru
-FWC J_Kaebtuash
+GK Guilherme Nobre
+DFC Hanif Schmidt
+MFC Surmeli Cinar
+DFC Gioele Borriello
+FWC Jannek Busse
 
-PK: M_Mus
+PK: Luigi Parker
 
