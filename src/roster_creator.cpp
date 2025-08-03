@@ -3,6 +3,7 @@
 //
 // This program is free software, licensed with the GPL (www.fsf.org)
 //
+#include <utf8.h>
 #include <cstdio>
 #include <cstdlib>
 #include <sstream>
@@ -15,7 +16,10 @@
 #include <climits>
 #include <cctype>
 #include <locale>
-#include <codecvt>
+#include <codecvt> // codecvt_utf8
+#include <locale>  // wstring_convert
+#include <cwchar>
+
 #include "dasmig/namegen.hpp"
 
 using namespace std;
@@ -65,6 +69,8 @@ bool more_sh(const RosterPlayer &p1, const RosterPlayer &p2)
 
 int main(int argc, char *argv[])
 {
+    setlocale(LC_ALL, "en_US.UTF-8");
+
     AnyOption *opt = new AnyOption();
     opt->noPOSIX();
 
@@ -344,66 +350,7 @@ bool throw_with_prob(unsigned prob)
 //
 string gen_random_name(void)
 {
-    auto name = ng::instance().get_name(ng::gender::m, ng::culture::any).append_surname();
-    wstring_convert<codecvt_utf8<wchar_t>> conv;
-    return conv.to_bytes(name);
-
-    string vowelish = "a,o,e,i,u";
-    string vowelish_not_begin = "ew,ow,oo,oa,oi,oe,ae,ua";
-    string consonantish =
-        "b,c,d,f,g,h,j,k,l,m,n,p,r,s,t,v,y,z,br,cl,gr,st,jh,tr,ty,dr,kr,ry,bt,sh,ch,pr";
-    string consonantish_not_begin =
-        "mn,nh,rt,rs,rst,dn,nd,ds,bt,bs,bl,sk,vr,ks,sy,ny,vr,sht,ck";
-
-    char first_name_abbr = 'A' + char(uniform_random(25));
-
-    bool last_was_vowel = false;
-    string result = "";
-
-    // Generate first name (a letter + "_")
-    result += first_name_abbr;
-    result += "_";
-
-    // Generate beginning
-    if (throw_with_prob(50))
-    {
-        result += rand_elem(vowelish);
-        last_was_vowel = true;
-    }
-    else
-    {
-        result += rand_elem(consonantish);
-        last_was_vowel = false;
-    }
-
-    unsigned howmany_proceed = 2 + uniform_random(3);
-
-    for (unsigned i = 0; i < howmany_proceed; ++i)
-    {
-        if (last_was_vowel)
-        {
-            if (throw_with_prob(50))
-                result += rand_elem(consonantish);
-            else
-                result += rand_elem(consonantish_not_begin);
-        }
-        else
-        {
-            if (throw_with_prob(75))
-                result += rand_elem(vowelish);
-            else
-                result += rand_elem(vowelish_not_begin);
-        }
-
-        last_was_vowel = !last_was_vowel;
-    }
-
-    if (result.size() > 12)
-        result = result.substr(0, 9 + uniform_random(3));
-
-    // Eventually, capitalize the first letter of the surename
-    //
-    result[2] = toupper(result[2]);
-
-    return result;
+    wstring wname = ng::instance().get_name(ng::gender::m, ng::culture::any).append_surname();
+    static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
+    return utf8_conv.to_bytes(wname);
 }

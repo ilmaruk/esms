@@ -35,7 +35,7 @@ const unsigned CHAR_BUF_LEN = 256;
 //
 struct playerstruct
 {
-	char name[CHAR_BUF_LEN];
+	string name;
 
 	// contains the 2-char position (w/o side)
 	char pos[3];

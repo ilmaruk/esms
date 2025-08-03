@@ -1,23 +1,23 @@
 ss2
 N
 
-GK Mohamad Moran
-DFC Yolcu Bozdogan
-DFC Plamen Spaasov
-DFC Israel Uscanga
-DFC Joachim Ãzcan
-MFC Helder Escoffier
-MFC Ondra Burian
-MFC Marius Fagernes
-MFC Alva Mejia
-FWC Cohen George
-FWC Leonardo Sarsa
+GK BÅetislav HrubÃ¡
+DFC Salatiel Salviano
+DFC Christopher Green
+DFC Berend Petersen
+DFC Jaume Alibes
+MFC PepÃ­k Trnka
+MFC Dragan Milicevic
+MFC Efraim KrÃ¼ger
+MFC Slaven Batur
+FWC Maksi Velia
+FWC Carlos Kring
 
-GK Aldair Mukanov
-DFC Sophus Lambertsen
-MFC Jan-Emil FrÃ¶jd
-DFC Jules Farmer
-FWC Peter Shepherd
+GK Joris Slegers
+DFC Lorenzo Maxwell
+MFC Jakub Ueland
+DFC Nitko Jurjevic
+FWC Gustavo Fondevilla
 
-PK: Cohen George
+PK: Maksi Velia
 

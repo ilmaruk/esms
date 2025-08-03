@@ -458,206 +458,208 @@ void add_team_stats_total()
     }
 }
 
-void init_teams_data_old(teamsheet_reader teamsheet[2])
-{
-    int i, j, l, found;
+// void init_teams_data_old(teamsheet_reader teamsheet[2])
+// {
+//     int i, j, l, found;
 
-    for (l = 0; l <= 1; l++)
-    {
-        sscanf(teamsheet[l].grab_line().c_str(), "%s", team[l].tactic);
+//     for (l = 0; l <= 1; l++)
+//     {
+//         sscanf(teamsheet[l].grab_line().c_str(), "%s", team[l].tactic);
 
-        if (!tact_manager().tactic_exists(string(team[l].tactic)))
-            die("Invalid tactic %s in %s's teamsheet", team[l].tactic, team[l].name);
+//         if (!tact_manager().tactic_exists(string(team[l].tactic)))
+//             die("Invalid tactic %s in %s's teamsheet", team[l].tactic, team[l].name);
 
-        for (i = 1; i <= num_players; i++)
-        {
-            char full_pos[CHAR_BUF_LEN];
+//         for (i = 1; i <= num_players; i++)
+//         {
+//             char full_pos[CHAR_BUF_LEN];
 
-            /* Read players's position and name */
-            sscanf(teamsheet[l].grab_line().c_str(), "%s %s", full_pos, team[l].player[i].name);
+//             /* Read players's position and name */
+//             sscanf(teamsheet[l].grab_line().c_str(), "%s %s", full_pos, team[l].player[i].name);
 
-            // For GKs, just copy the position as is
-            //
-            if (!strcmp(full_pos, "GK"))
-                strncpy(team[l].player[i].pos, "GK", 2);
-            else
-            {
-                if (!is_legal_position(string(full_pos)))
-                    die("Illegal position %s of %s in %s's teamsheet", full_pos,
-                        team[l].player[i].name, team[l].name);
+//             // For GKs, just copy the position as is
+//             //
+//             if (!strcmp(full_pos, "GK"))
+//                 strncpy(team[l].player[i].pos, "GK", 2);
+//             else
+//             {
+//                 if (!is_legal_position(string(full_pos)))
+//                     die("Illegal position %s of %s in %s's teamsheet", full_pos,
+//                         team[l].player[i].name, team[l].name);
 
-                strncpy(team[l].player[i].pos, fullpos2position(full_pos).c_str(), 2);
-                team[l].player[i].side = fullpos2side(full_pos);
-            }
+//                 strncpy(team[l].player[i].pos, fullpos2position(full_pos).c_str(), 2);
+//                 team[l].player[i].side = fullpos2side(full_pos);
+//             }
 
-            /* The first specified player must be a GK */
-            if (i == 1 && strcmp(team[l].player[i].pos, "GK"))
-                die("The first player in %s's teamsheet must be a GK", team[l].name);
+//             /* The first specified player must be a GK */
+//             if (i == 1 && strcmp(team[l].player[i].pos, "GK"))
+//                 die("The first player in %s's teamsheet must be a GK", team[l].name);
 
-            if (!strcmp(team[l].player[i].pos, "PK:"))
-                die("PK: where player %d was expected (%s)", i, team[l].name);
+//             if (!strcmp(team[l].player[i].pos, "PK:"))
+//                 die("PK: where player %d was expected (%s)", i, team[l].name);
 
-            found = 0;
-            j = 1;
+//             found = 0;
+//             j = 1;
 
-            // Search for this player in the roster, and when found assign his info
-            // to the player structure.
-            //
-            for (RosterPlayerIterator player = team[l].roster_players.begin(); player != team[l].roster_players.end(); ++player)
-            {
-                if (strcmp(team[l].player[i].name, player->name.c_str()))
-                    continue;
+//             // Search for this player in the roster, and when found assign his info
+//             // to the player structure.
+//             //
+//             for (RosterPlayerIterator player = team[l].roster_players.begin(); player != team[l].roster_players.end(); ++player)
+//             {
+//                 cout << "Checking player " << team[l].player[i].name << endl;
+//                 cout << "Checking player " << player->name << endl;
+//                 if (strcmp(team[l].player[i].name, player->name.c_str()))
+//                     continue;
 
-                found = 1;
+//                 found = 1;
 
-                // Check if the player is available for the game
-                //
-                if (player->injury > 0)
-                    die("Player %s (%s) is injured",
-                        player->name.c_str(), team[l].name);
+//                 // Check if the player is available for the game
+//                 //
+//                 if (player->injury > 0)
+//                     die("Player %s (%s) is injured",
+//                         player->name.c_str(), team[l].name);
 
-                if (player->suspension > 0)
-                    die("Player %s (%s) is suspended",
-                        player->name.c_str(), team[l].name);
+//                 if (player->suspension > 0)
+//                     die("Player %s (%s) is suspended",
+//                         player->name.c_str(), team[l].name);
 
-                strncpy(team[l].player[i].pref_side, player->pref_side.c_str(), CHAR_BUF_LEN);
+//                 strncpy(team[l].player[i].pref_side, player->pref_side.c_str(), CHAR_BUF_LEN);
 
-                team[l].player[i].likes_left = false;
-                team[l].player[i].likes_right = false;
-                team[l].player[i].likes_center = false;
+//                 team[l].player[i].likes_left = false;
+//                 team[l].player[i].likes_right = false;
+//                 team[l].player[i].likes_center = false;
 
-                if (strchr(team[l].player[i].pref_side, 'L'))
-                    team[l].player[i].likes_left = true;
+//                 if (strchr(team[l].player[i].pref_side, 'L'))
+//                     team[l].player[i].likes_left = true;
 
-                if (strchr(team[l].player[i].pref_side, 'R'))
-                    team[l].player[i].likes_right = true;
+//                 if (strchr(team[l].player[i].pref_side, 'R'))
+//                     team[l].player[i].likes_right = true;
 
-                if (strchr(team[l].player[i].pref_side, 'C'))
-                    team[l].player[i].likes_center = true;
+//                 if (strchr(team[l].player[i].pref_side, 'C'))
+//                     team[l].player[i].likes_center = true;
 
-                team[l].player[i].st = player->st;
-                team[l].player[i].tk = player->tk;
-                team[l].player[i].ps = player->ps;
-                team[l].player[i].sh = player->sh;
-                team[l].player[i].stamina = player->stamina;
+//                 team[l].player[i].st = player->st;
+//                 team[l].player[i].tk = player->tk;
+//                 team[l].player[i].ps = player->ps;
+//                 team[l].player[i].sh = player->sh;
+//                 team[l].player[i].stamina = player->stamina;
 
-                // Each player has a nominal_fatigue_per_minute rating that's
-                // calculated once, based on his stamina.
-                //
-                // I'd like the average rating be 0.031 - so that an average player
-                // (stamina = 50) will lose 30 fitness points during a full game.
-                //
-                // The range is approximately 50 - 10 points, and the stamina range
-                // is 1-99. So, first the ratio is normalized and then subtracted
-                // from the average 0.031 (which, times 90 minutes, is 0.279).
-                // The formula for each player is:
-                //
-                // fatigue            stamina - 50
-                // ------- = 0.0031 - ------------  * 0.0022
-                //  minute                 50
-                //
-                //
-                // This gives (approximately) 30 lost fitness points for average players,
-                // 50 for the worse stamina and 10 for the best stamina.
-                //
-                // A small random factor is added each minute, so the exact numbers are
-                // not deterministic.
-                //
-                double normalized_stamina_ratio = double(team[l].player[i].stamina - 50) / 50.0;
-                team[l].player[i].nominal_fatigue_per_minute = 0.0031 - normalized_stamina_ratio * 0.0022;
+//                 // Each player has a nominal_fatigue_per_minute rating that's
+//                 // calculated once, based on his stamina.
+//                 //
+//                 // I'd like the average rating be 0.031 - so that an average player
+//                 // (stamina = 50) will lose 30 fitness points during a full game.
+//                 //
+//                 // The range is approximately 50 - 10 points, and the stamina range
+//                 // is 1-99. So, first the ratio is normalized and then subtracted
+//                 // from the average 0.031 (which, times 90 minutes, is 0.279).
+//                 // The formula for each player is:
+//                 //
+//                 // fatigue            stamina - 50
+//                 // ------- = 0.0031 - ------------  * 0.0022
+//                 //  minute                 50
+//                 //
+//                 //
+//                 // This gives (approximately) 30 lost fitness points for average players,
+//                 // 50 for the worse stamina and 10 for the best stamina.
+//                 //
+//                 // A small random factor is added each minute, so the exact numbers are
+//                 // not deterministic.
+//                 //
+//                 double normalized_stamina_ratio = double(team[l].player[i].stamina - 50) / 50.0;
+//                 team[l].player[i].nominal_fatigue_per_minute = 0.0031 - normalized_stamina_ratio * 0.0022;
 
-                team[l].player[i].ag = player->ag;
-                team[l].player[i].fatigue = double(player->fitness) / 100.0;
-            }
+//                 team[l].player[i].ag = player->ag;
+//                 team[l].player[i].fatigue = double(player->fitness) / 100.0;
+//             }
 
-            if (!found)
-                die("Player %s (%s) doesn't exist in the roster file",
-                    team[l].player[i].name, team[l].name);
-        }
+//             if (!found)
+//                 die("Player %s (%s) doesn't exist in the roster file",
+//                     team[l].player[i].name, team[l].name);
+//         }
 
-        // There's an optional "PK: <Name>" line.
-        // If it exists, the <Name> must be listed in the teamsheet.
-        //
-        string pk_line = teamsheet[l].peek_line();
-        vector<string> pk_lines_tokens = tokenize(pk_line);
+//         // There's an optional "PK: <Name>" line.
+//         // If it exists, the <Name> must be listed in the teamsheet.
+//         //
+//         string pk_line = teamsheet[l].peek_line();
+//         vector<string> pk_lines_tokens = tokenize(pk_line);
 
-        if (pk_lines_tokens.size() == 2 && pk_lines_tokens[0] == "PK:")
-        {
-            // now really remove this line
-            teamsheet[l].grab_line();
-            int i;
+//         if (pk_lines_tokens.size() == 2 && pk_lines_tokens[0] == "PK:")
+//         {
+//             // now really remove this line
+//             teamsheet[l].grab_line();
+//             int i;
 
-            for (i = num_players; i > 0; --i)
-            {
-                if (!strcmp(pk_lines_tokens[1].c_str(), team[l].player[i].name))
-                {
-                    team[l].penalty_taker = i;
-                    break;
-                }
-            }
+//             for (i = num_players; i > 0; --i)
+//             {
+//                 if (!strcmp(pk_lines_tokens[1].c_str(), team[l].player[i].name))
+//                 {
+//                     team[l].penalty_taker = i;
+//                     break;
+//                 }
+//             }
 
-            if (i == 0)
-                die("Error in penalty kick taker of %s, player %s not listed", team[l].name, pk_lines_tokens[1].c_str());
-        }
-        else
-        {
-            team[l].penalty_taker = -1;
-        }
-    }
+//             if (i == 0)
+//                 die("Error in penalty kick taker of %s, player %s not listed", team[l].name, pk_lines_tokens[1].c_str());
+//         }
+//         else
+//         {
+//             team[l].penalty_taker = -1;
+//         }
+//     }
 
-    ensure_no_duplicate_names();
+//     ensure_no_duplicate_names();
 
-    read_conditionals(teamsheet);
+//     read_conditionals(teamsheet);
 
-    // Set active flags
-    for (j = 0; j <= 1; j++)
-    {
-        team[j].substitutions = 0;
-        team[j].injuries = 0;
+//     // Set active flags
+//     for (j = 0; j <= 1; j++)
+//     {
+//         team[j].substitutions = 0;
+//         team[j].injuries = 0;
 
-        for (i = 1; i <= num_players; i++)
-        {
-            if (i <= 11)
-                team[j].player[i].active = 1;
-            else
-                team[j].player[i].active = 2;
-        }
-    }
+//         for (i = 1; i <= num_players; i++)
+//         {
+//             if (i <= 11)
+//                 team[j].player[i].active = 1;
+//             else
+//                 team[j].player[i].active = 2;
+//         }
+//     }
 
-    /* In the beginning, player n.1 is always the GK */
-    team[0].current_gk = team[1].current_gk = 1;
+//     /* In the beginning, player n.1 is always the GK */
+//     team[0].current_gk = team[1].current_gk = 1;
 
-    /* Data initialization */
-    for (j = 0; j <= 1; j++)
-    {
-        team[j].score = team[j].finalshots_on = team[j].finalshots_off = 0;
-        team[j].finalfouls = 0;
-        team[j].team_tackling = team[j].team_passing = team[j].team_shooting = 0;
+//     /* Data initialization */
+//     for (j = 0; j <= 1; j++)
+//     {
+//         team[j].score = team[j].finalshots_on = team[j].finalshots_off = 0;
+//         team[j].finalfouls = 0;
+//         team[j].team_tackling = team[j].team_passing = team[j].team_shooting = 0;
 
-        for (i = 1; i <= num_players; i++)
-        {
-            team[j].player[i].tk_contrib = team[j].player[i].ps_contrib =
-                team[j].player[i].sh_contrib = 0;
+//         for (i = 1; i <= num_players; i++)
+//         {
+//             team[j].player[i].tk_contrib = team[j].player[i].ps_contrib =
+//                 team[j].player[i].sh_contrib = 0;
 
-            team[j].player[i].yellowcards = 0;
-            team[j].player[i].redcards = 0;
-            team[j].player[i].injured = 0;
-            team[j].player[i].tk_ab = 0;
-            team[j].player[i].ps_ab = 0;
-            team[j].player[i].sh_ab = 0;
-            team[j].player[i].st_ab = 0;
+//             team[j].player[i].yellowcards = 0;
+//             team[j].player[i].redcards = 0;
+//             team[j].player[i].injured = 0;
+//             team[j].player[i].tk_ab = 0;
+//             team[j].player[i].ps_ab = 0;
+//             team[j].player[i].sh_ab = 0;
+//             team[j].player[i].st_ab = 0;
 
-            // final stats initialization
-            team[j].player[i].minutes = team[j].player[i].shots = 0;
-            team[j].player[i].goals = team[j].player[i].saves = 0;
-            team[j].player[i].assists = team[j].player[i].tackles = 0;
-            team[j].player[i].keypasses = team[j].player[i].fouls = 0;
-            team[j].player[i].redcards = team[j].player[i].yellowcards = 0;
-            team[j].player[i].conceded = team[j].player[i].shots_on = 0;
-            team[j].player[i].shots_off = 0;
-        }
-    }
-}
+//             // final stats initialization
+//             team[j].player[i].minutes = team[j].player[i].shots = 0;
+//             team[j].player[i].goals = team[j].player[i].saves = 0;
+//             team[j].player[i].assists = team[j].player[i].tackles = 0;
+//             team[j].player[i].keypasses = team[j].player[i].fouls = 0;
+//             team[j].player[i].redcards = team[j].player[i].yellowcards = 0;
+//             team[j].player[i].conceded = team[j].player[i].shots_on = 0;
+//             team[j].player[i].shots_off = 0;
+//         }
+//     }
+// }
 
 void init_teams_data(Teamsheet teamsheet[2])
 {
@@ -675,8 +677,16 @@ void init_teams_data(Teamsheet teamsheet[2])
             char full_pos[CHAR_BUF_LEN];
 
             /* Read players's position and name */
-            sscanf(teamsheet[l].field[i - 1].name.c_str(), "%s", team[l].player[i].name);
-            sscanf(teamsheet[l].field[i - 1].pos.c_str(), "%s", full_pos);
+            if (i <= 11)
+            {
+                team[l].player[i].name = teamsheet[l].field[i - 1].name;
+                sscanf(teamsheet[l].field[i - 1].pos.c_str(), "%s", full_pos);
+            }
+            else
+            {
+                team[l].player[i].name = teamsheet[l].bench[i - 12].name;
+                sscanf(teamsheet[l].bench[i - 12].pos.c_str(), "%s", full_pos);
+            }
 
             // For GKs, just copy the position as is
             //
@@ -686,7 +696,7 @@ void init_teams_data(Teamsheet teamsheet[2])
             {
                 if (!is_legal_position(string(full_pos)))
                     die("Illegal position %s of %s in %s's teamsheet", full_pos,
-                        team[l].player[i].name, team[l].name);
+                        team[l].player[i].name.c_str(), team[l].name);
 
                 strncpy(team[l].player[i].pos, fullpos2position(full_pos).c_str(), 2);
                 team[l].player[i].side = fullpos2side(full_pos);
@@ -707,7 +717,7 @@ void init_teams_data(Teamsheet teamsheet[2])
             //
             for (RosterPlayerIterator player = team[l].roster_players.begin(); player != team[l].roster_players.end(); ++player)
             {
-                if (strcmp(team[l].player[i].name, player->name.c_str()))
+                if (team[l].player[i].name != player->name)
                     continue;
 
                 found = 1;
@@ -770,18 +780,20 @@ void init_teams_data(Teamsheet teamsheet[2])
 
                 team[l].player[i].ag = player->ag;
                 team[l].player[i].fatigue = double(player->fitness) / 100.0;
+
+                break;
             }
 
             if (!found)
                 die("Player %s (%s) doesn't exist in the roster file",
-                    team[l].player[i].name, team[l].name);
+                    team[l].player[i].name.c_str(), team[l].name);
         }
 
         // There's an optional "PK: <Name>" line.
         // If it exists, the <Name> must be listed in the teamsheet.
         for (i = num_players; i > 0; --i)
         {
-            if (!strcmp(teamsheet[l].pk.c_str(), team[l].player[i].name))
+            if (!strcmp(teamsheet[l].pk.c_str(), team[l].player[i].name.c_str()))
             {
                 team[l].penalty_taker = i;
                 break;
@@ -858,9 +870,9 @@ void ensure_no_duplicate_names(void)
         for (i = 1; i <= num_players; i++)
             for (k = 1; k <= num_players; k++)
             {
-                if (k != i && !strcmp(team[j].player[i].name, team[j].player[k].name))
+                if (k != i && !strcmp(team[j].player[i].name.c_str(), team[j].player[k].name.c_str()))
                     die("Player %s (%s) is named twice in the team sheet",
-                        team[j].player[i].name, team[j].name);
+                        team[j].player[i].name.c_str(), team[j].name);
             }
 }
 
@@ -881,9 +893,9 @@ void print_starting_tactics(void)
     {
         fprintf(comm, "%-3s %-26s %-3s %-26s\n",
                 pos_and_side2fullpos(team[0].player[i].pos, team[0].player[i].side).c_str(),
-                team[0].player[i].name,
+                team[0].player[i].name.c_str(),
                 pos_and_side2fullpos(team[1].player[i].pos, team[1].player[i].side).c_str(),
-                team[1].player[i].name);
+                team[1].player[i].name.c_str());
     }
 
     fprintf(comm, "\n");
@@ -1001,8 +1013,8 @@ void substitute_player(int a, int out, int in, string newpos)
         team[a].substitutions++;
 
         fputs(the_commentary().rand_comment("SUB", minute_str().c_str(), team[a].name,
-                                            team[a].player[in].name,
-                                            team[a].player[out].name,
+                                            team[a].player[in].name.c_str(),
+                                            team[a].player[out].name.c_str(),
                                             newpos.c_str())
                   .c_str(),
               comm);
@@ -1019,7 +1031,7 @@ void change_position(int a, int b, string newpos)
         {
             fputs(the_commentary().rand_comment("CHANGEPOSITION", minute_str().c_str(),
                                                 team[a].name,
-                                                team[a].player[b].name,
+                                                team[a].player[b].name.c_str(),
                                                 newpos.c_str())
                       .c_str(),
                   comm);
@@ -1050,7 +1062,7 @@ void random_injury(int a)
 
         fprintf(comm, "%s",
                 the_commentary().rand_comment("INJURY", minute_str().c_str(), team[a].name,
-                                              team[a].player[injured].name)
+                                              team[a].player[injured].name.c_str())
                     .c_str());
 
         report_event *an_event = new report_event_injury(team[a].player[injured].name,
@@ -1344,7 +1356,7 @@ void if_shot(int a)
 
             shooter = who_got_assist(a, assister);
 
-            fprintf(comm, "%s", the_commentary().rand_comment("ASSISTEDCHANCE", minute_str().c_str(), team[a].name, team[a].player[assister].name, team[a].player[shooter].name).c_str());
+            fprintf(comm, "%s", the_commentary().rand_comment("ASSISTEDCHANCE", minute_str().c_str(), team[a].name, team[a].player[assister].name.c_str(), team[a].player[shooter].name.c_str()).c_str());
             team[a].player[assister].keypasses++;
         }
         else
@@ -1353,7 +1365,7 @@ void if_shot(int a)
 
             chance_assisted = 0;
             assister = 0;
-            fprintf(comm, "%s", the_commentary().rand_comment("CHANCE", minute_str().c_str(), team[a].name, team[a].player[shooter].name).c_str());
+            fprintf(comm, "%s", the_commentary().rand_comment("CHANCE", minute_str().c_str(), team[a].name, team[a].player[shooter].name.c_str()).c_str());
         }
 
         chance_tackled = (int)(4000.0 * ((team[!a].team_tackling * 3.0) / (team[a].team_passing * 2.0 + team[a].team_shooting)));
@@ -1364,11 +1376,11 @@ void if_shot(int a)
             tackler = who_did_it(!a, DID_TACKLE);
             team[!a].player[tackler].tackles++;
 
-            fprintf(comm, "%s", the_commentary().rand_comment("TACKLE", team[!a].player[tackler].name).c_str());
+            fprintf(comm, "%s", the_commentary().rand_comment("TACKLE", team[!a].player[tackler].name.c_str()).c_str());
         }
         else /* Chance was not tackled, it will be a shot on goal */
         {
-            fprintf(comm, "%s", the_commentary().rand_comment("SHOT", team[a].player[shooter].name).c_str());
+            fprintf(comm, "%s", the_commentary().rand_comment("SHOT", team[a].player[shooter].name.c_str()).c_str());
             team[a].player[shooter].shots++;
 
             if (if_ontarget(a, shooter))
@@ -1399,7 +1411,7 @@ void if_shot(int a)
                                 team[1].score,
                                 team[1].name);
 
-                        report_event *an_event = new report_event_goal(team[a].player[shooter].name,
+                        report_event *an_event = new report_event_goal(team[a].player[shooter].name.c_str(),
                                                                        team[a].name, formal_minute_str().c_str());
 
                         report_vec.push_back(an_event);
@@ -1407,7 +1419,7 @@ void if_shot(int a)
                 }
                 else
                 {
-                    fprintf(comm, "%s", the_commentary().rand_comment("SAVE", team[!a].player[team[!a].current_gk].name).c_str());
+                    fprintf(comm, "%s", the_commentary().rand_comment("SAVE", team[!a].player[team[!a].current_gk].name.c_str()).c_str());
                     team[!a].player[team[!a].current_gk].saves++;
                 }
             }
@@ -1572,7 +1584,7 @@ void if_foul(int a)
     if (randomp((int)team[a].aggression * 3 / 4))
     {
         fouler = who_did_it(a, DID_FOUL);
-        fprintf(comm, "%s", the_commentary().rand_comment("FOUL", minute_str().c_str(), team[a].name, team[a].player[fouler].name).c_str());
+        fprintf(comm, "%s", the_commentary().rand_comment("FOUL", minute_str().c_str(), team[a].name, team[a].player[fouler].name.c_str()).c_str());
 
         team[a].finalfouls++; /* For final stats */
         team[a].player[fouler].fouls++;
@@ -1608,7 +1620,7 @@ void if_foul(int a)
                 team[!a].penalty_taker = max_index;
             }
 
-            fprintf(comm, "%s", the_commentary().rand_comment("PENALTY", team[!a].player[team[!a].penalty_taker].name).c_str());
+            fprintf(comm, "%s", the_commentary().rand_comment("PENALTY", team[!a].player[team[!a].penalty_taker].name.c_str()).c_str());
 
             /* If Penalty... Goal ? */
             if (randomp(8000 + team[!a].player[team[!a].penalty_taker].sh * 100 -
@@ -1630,7 +1642,7 @@ void if_foul(int a)
                 // Either it was saved, or it went off-target
                 //
                 if (randomp(7500))
-                    fprintf(comm, "%s", the_commentary().rand_comment("SAVE", team[a].player[team[a].current_gk].name).c_str());
+                    fprintf(comm, "%s", the_commentary().rand_comment("SAVE", team[a].player[team[a].current_gk].name.c_str()).c_str());
                 else /* Or it went off-target */
                     fprintf(comm, "%s", the_commentary().rand_comment("OFFTARGET").c_str());
             }
@@ -1654,7 +1666,7 @@ void bookings(int a, int b, int card_color)
             fprintf(comm, "%s", the_commentary().rand_comment("SECONDYELLOWCARD").c_str());
             send_off(a, b);
 
-            report_event *an_event = new report_event_red_card(team[a].player[b].name,
+            report_event *an_event = new report_event_red_card(team[a].player[b].name.c_str(),
                                                                team[a].name, formal_minute_str().c_str());
             report_vec.push_back(an_event);
 
@@ -1668,7 +1680,7 @@ void bookings(int a, int b, int card_color)
         fprintf(comm, "%s", the_commentary().rand_comment("REDCARD").c_str());
         send_off(a, b);
 
-        report_event *an_event = new report_event_red_card(team[a].player[b].name,
+        report_event *an_event = new report_event_red_card(team[a].player[b].name.c_str(),
                                                            team[a].name, formal_minute_str().c_str());
         report_vec.push_back(an_event);
 
@@ -1931,7 +1943,7 @@ void print_final_stats(void)
         for (i = 1; i <= num_players; i++)
         {
             fprintf(comm, "\n%-13s %3s %3s%3d%3d%3d%3d%3d | %3d %3d %3d %3d %3d %3d %3d %3d %3d %3d %3d %3d %3d %3d %3d",
-                    team[j].player[i].name,
+                    team[j].player[i].name.c_str(),
                     pos_and_side2fullpos(team[j].player[i].pos, team[j].player[i].side).c_str(),
                     team[j].player[i].pref_side,
                     team[j].player[i].st, team[j].player[i].tk,

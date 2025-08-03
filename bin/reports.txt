@@ -13,3 +13,18 @@ Inj: Q_Stuvre (ss1) 58'
 Red: R_Shapoe (ss2) 88'
 S_Adsuds (ss1) 90'
 
+
+ss1 0 - 1 ss2
+Carlos Kring (ss2) 56'
+Red: Almaz Kornienko (ss1) 67'
+Inj: Salatiel Salviano (ss2) 90'
+
+
+ss1 1 - 2 ss2
+Maksi Velia (ss2)  7'
+Andrzej Van Der Weide (ss1) 25'
+Inj: Carlos Kring (ss2) 31'
+Gustavo Fondevilla (ss2) 45'
+Red: Andrzej Van Der Weide (ss1) 83'
+Inj: Almaz Kornienko (ss1) 83'
+

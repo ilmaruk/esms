@@ -1,23 +1,23 @@
 ss1
-A
+N
 
-GK Nilo SÃ¶derblom
-DFC Å½elimir Perkovic
-DFC Haijun Kong
-DFC Haijun Mu
-DFC Antonio Francisco Rangelov
-MFC Bozan Zengin
-MFC Frederik Wolter
-MFC Miles Marcoux
-FWC Luigi Parker
-FWC Dan Nordeide
-FWC Rashid Als
+GK Luigi Natale
+DFC Yakiv Hudz
+DFC Marlin Winn
+DFC Mihtat Ozoglu
+DFC Taras Dudar
+MFC Andrzej Van Der Weide
+MFC Almaz Kornienko
+MFC Max Gilliam
+MFC Alpay Karli
+FWC Pavel Hunev
+FWC Elias Frantzen
 
-GK Guilherme Nobre
-DFC Hanif Schmidt
-MFC Surmeli Cinar
-DFC Gioele Borriello
-FWC Jannek Busse
+GK Mario Thiemann
+DFC Vitalij PolÃ¡Äek
+MFC Andrew Sanchez
+DFC Oren Plouffe
+FWC Edmund Humphreys
 
-PK: Luigi Parker
+PK: Pavel Hunev
 
