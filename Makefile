@@ -28,7 +28,7 @@ ROSTER_CREATOR_SRC := $(SRC_DIR)/roster_creator.cpp $(SRC_DIR)/rosterplayer.cpp 
 ESMS_OBJ := $(ESMS_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 UPDTR_OBJ := $(UPDTR_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 LGTABLE_OBJ := $(LGTABLE_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-FIXTURES_OBJ := $(TSC_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+FIXTURES_OBJ := $(FIXTURES_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 TSC_OBJ := $(TSC_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 ROSTER_CREATOR_OBJ := $(ROSTER_CREATOR_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 

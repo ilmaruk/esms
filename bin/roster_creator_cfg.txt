@@ -1,4 +1,4 @@
-n_rosters = 4
+n_rosters = 20
 n_gk = 3
 n_df = 8
 n_dm = 3 

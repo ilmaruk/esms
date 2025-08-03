@@ -39,10 +39,13 @@
 #include <algorithm>
 #include "util.h"
 #include "anyoption.h"
+#include "models.h"
 
 using namespace std;
 
 const string DUMMY_TEAMNAME = "DUMMY DUMMY DUMMY DUMMY HOPE IT WONT APPEAR !!!!";
+
+bool write_fixtures(string filename, const Fixtures fixtures);
 
 int main(int argc, char **argv)
 {
@@ -167,35 +170,41 @@ int main(int argc, char **argv)
         for (unsigned team_n = 0; team_n < num_teams; team_n += 2)
             swap(games[week_n][team_n], games[week_n][team_n + 1]);
 
-    ofstream fx_file("fixtures.txt");
-
-    if (fx_file)
+    Fixtures calendar = {};
+    for (unsigned week_n = 0; week_n < num_weeks_in_round * 2; ++week_n)
     {
-        // Now print the fixtures to fixtures.txt
-        // First, "games" is printed as is. Then, it's printed again, with
-        // home/away reversed (second round). The dummy team is removed.
-        //
-        for (unsigned week_n = 0; week_n < num_weeks_in_round * 2; ++week_n)
+        FixturesWeek week;
+
+        for (unsigned team_n = 0; team_n < num_teams; team_n += 2)
         {
-            fx_file << week_n + 1 << ".\n\n";
+            string home_team = (week_n < num_weeks_in_round) ? games[week_n][team_n] : games[week_n - num_weeks_in_round][team_n + 1];
+            string away_team = (week_n < num_weeks_in_round) ? games[week_n][team_n + 1] : games[week_n - num_weeks_in_round][team_n];
 
-            for (unsigned team_n = 0; team_n < num_teams; team_n += 2)
-            {
-                string home_team = (week_n < num_weeks_in_round) ? games[week_n][team_n] : games[week_n - num_weeks_in_round][team_n + 1];
-                string away_team = (week_n < num_weeks_in_round) ? games[week_n][team_n + 1] : games[week_n - num_weeks_in_round][team_n];
-
-                if (home_team != DUMMY_TEAMNAME && away_team != DUMMY_TEAMNAME)
-                    fx_file << home_team << " - " << away_team << endl;
-            }
-
-            fx_file << endl;
+            week.push_back({home_team, away_team});
         }
 
-        cout << "fixtures.txt generated\n";
+        calendar.weeks.push_back(week);
     }
-    else
-        die("Error creating fixtures.txt !");
 
-    MY_EXIT(0);
+    const string fixtures_json_filename = "fixtures.json";
+    if (!write_fixtures(fixtures_json_filename, calendar))
+    {
+        die("Error creating fixtures.json !");
+    }
+    cout << fixtures_json_filename << " generated\n";
+
     return 0;
+}
+
+bool write_fixtures(string filename, const Fixtures fx)
+{
+    ofstream fh(filename.c_str());
+
+    if (!fh)
+        return false;
+
+    json j = fx;
+    fh << j << endl;
+
+    return true;
 }

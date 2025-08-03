@@ -1,0 +1,494 @@
+1.
+
+atal - cagl
+geno - inte
+juve - mila
+lazi - roma
+napo - tori
+udin - bolo
+vero - parm
+como - sass
+crem - pisa
+lecc - fior
+
+2.
+
+geno - atal
+cagl - juve
+inte - lazi
+mila - napo
+roma - udin
+tori - vero
+bolo - como
+parm - crem
+sass - lecc
+pisa - fior
+
+3.
+
+atal - juve
+lazi - geno
+napo - cagl
+udin - inte
+vero - mila
+como - roma
+crem - tori
+lecc - bolo
+fior - parm
+pisa - sass
+
+4.
+
+lazi - atal
+juve - napo
+geno - udin
+cagl - vero
+inte - como
+mila - crem
+roma - lecc
+tori - fior
+bolo - pisa
+parm - sass
+
+5.
+
+atal - napo
+udin - lazi
+vero - juve
+como - geno
+crem - cagl
+lecc - inte
+fior - mila
+pisa - roma
+sass - tori
+parm - bolo
+
+6.
+
+udin - atal
+napo - vero
+lazi - como
+juve - crem
+geno - lecc
+cagl - fior
+inte - pisa
+mila - sass
+roma - parm
+tori - bolo
+
+7.
+
+atal - vero
+como - udin
+crem - napo
+lecc - lazi
+fior - juve
+pisa - geno
+sass - cagl
+parm - inte
+bolo - mila
+tori - roma
+
+8.
+
+como - atal
+vero - crem
+udin - lecc
+napo - fior
+lazi - pisa
+juve - sass
+geno - parm
+cagl - bolo
+inte - tori
+mila - roma
+
+9.
+
+atal - crem
+lecc - como
+fior - vero
+pisa - udin
+sass - napo
+parm - lazi
+bolo - juve
+tori - geno
+roma - cagl
+mila - inte
+
+10.
+
+lecc - atal
+crem - fior
+como - pisa
+vero - sass
+udin - parm
+napo - bolo
+lazi - tori
+juve - roma
+geno - mila
+cagl - inte
+
+11.
+
+atal - fior
+pisa - lecc
+sass - crem
+parm - como
+bolo - vero
+tori - udin
+roma - napo
+mila - lazi
+inte - juve
+cagl - geno
+
+12.
+
+pisa - atal
+fior - sass
+lecc - parm
+crem - bolo
+como - tori
+vero - roma
+udin - mila
+napo - inte
+lazi - cagl
+juve - geno
+
+13.
+
+atal - sass
+parm - pisa
+bolo - fior
+tori - lecc
+roma - crem
+mila - como
+inte - vero
+cagl - udin
+geno - napo
+juve - lazi
+
+14.
+
+parm - atal
+sass - bolo
+pisa - tori
+fior - roma
+lecc - mila
+crem - inte
+como - cagl
+vero - geno
+udin - juve
+napo - lazi
+
+15.
+
+atal - bolo
+tori - parm
+roma - sass
+mila - pisa
+inte - fior
+cagl - lecc
+geno - crem
+juve - como
+lazi - vero
+napo - udin
+
+16.
+
+tori - atal
+bolo - roma
+parm - mila
+sass - inte
+pisa - cagl
+fior - geno
+lecc - juve
+crem - lazi
+como - napo
+vero - udin
+
+17.
+
+atal - roma
+mila - tori
+inte - bolo
+cagl - parm
+geno - sass
+juve - pisa
+lazi - fior
+napo - lecc
+udin - crem
+vero - como
+
+18.
+
+mila - atal
+roma - inte
+tori - cagl
+bolo - geno
+parm - juve
+sass - lazi
+pisa - napo
+fior - udin
+lecc - vero
+crem - como
+
+19.
+
+atal - inte
+cagl - mila
+geno - roma
+juve - tori
+lazi - bolo
+napo - parm
+udin - sass
+vero - pisa
+como - fior
+crem - lecc
+
+20.
+
+cagl - atal
+inte - geno
+mila - juve
+roma - lazi
+tori - napo
+bolo - udin
+parm - vero
+sass - como
+pisa - crem
+fior - lecc
+
+21.
+
+atal - geno
+juve - cagl
+lazi - inte
+napo - mila
+udin - roma
+vero - tori
+como - bolo
+crem - parm
+lecc - sass
+fior - pisa
+
+22.
+
+juve - atal
+geno - lazi
+cagl - napo
+inte - udin
+mila - vero
+roma - como
+tori - crem
+bolo - lecc
+parm - fior
+sass - pisa
+
+23.
+
+atal - lazi
+napo - juve
+udin - geno
+vero - cagl
+como - inte
+crem - mila
+lecc - roma
+fior - tori
+pisa - bolo
+sass - parm
+
+24.
+
+napo - atal
+lazi - udin
+juve - vero
+geno - como
+cagl - crem
+inte - lecc
+mila - fior
+roma - pisa
+tori - sass
+bolo - parm
+
+25.
+
+atal - udin
+vero - napo
+como - lazi
+crem - juve
+lecc - geno
+fior - cagl
+pisa - inte
+sass - mila
+parm - roma
+bolo - tori
+
+26.
+
+vero - atal
+udin - como
+napo - crem
+lazi - lecc
+juve - fior
+geno - pisa
+cagl - sass
+inte - parm
+mila - bolo
+roma - tori
+
+27.
+
+atal - como
+crem - vero
+lecc - udin
+fior - napo
+pisa - lazi
+sass - juve
+parm - geno
+bolo - cagl
+tori - inte
+roma - mila
+
+28.
+
+crem - atal
+como - lecc
+vero - fior
+udin - pisa
+napo - sass
+lazi - parm
+juve - bolo
+geno - tori
+cagl - roma
+inte - mila
+
+29.
+
+atal - lecc
+fior - crem
+pisa - como
+sass - vero
+parm - udin
+bolo - napo
+tori - lazi
+roma - juve
+mila - geno
+inte - cagl
+
+30.
+
+fior - atal
+lecc - pisa
+crem - sass
+como - parm
+vero - bolo
+udin - tori
+napo - roma
+lazi - mila
+juve - inte
+geno - cagl
+
+31.
+
+atal - pisa
+sass - fior
+parm - lecc
+bolo - crem
+tori - como
+roma - vero
+mila - udin
+inte - napo
+cagl - lazi
+geno - juve
+
+32.
+
+sass - atal
+pisa - parm
+fior - bolo
+lecc - tori
+crem - roma
+como - mila
+vero - inte
+udin - cagl
+napo - geno
+lazi - juve
+
+33.
+
+atal - parm
+bolo - sass
+tori - pisa
+roma - fior
+mila - lecc
+inte - crem
+cagl - como
+geno - vero
+juve - udin
+lazi - napo
+
+34.
+
+bolo - atal
+parm - tori
+sass - roma
+pisa - mila
+fior - inte
+lecc - cagl
+crem - geno
+como - juve
+vero - lazi
+udin - napo
+
+35.
+
+atal - tori
+roma - bolo
+mila - parm
+inte - sass
+cagl - pisa
+geno - fior
+juve - lecc
+lazi - crem
+napo - como
+udin - vero
+
+36.
+
+roma - atal
+tori - mila
+bolo - inte
+parm - cagl
+sass - geno
+pisa - juve
+fior - lazi
+lecc - napo
+crem - udin
+como - vero
+
+37.
+
+atal - mila
+inte - roma
+cagl - tori
+geno - bolo
+juve - parm
+lazi - sass
+napo - pisa
+udin - fior
+vero - lecc
+como - crem
+
+38.
+
+inte - atal
+mila - cagl
+roma - geno
+tori - juve
+bolo - lazi
+parm - napo
+sass - udin
+pisa - vero
+fior - como
+lecc - crem
+

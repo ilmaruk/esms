@@ -100,4 +100,26 @@ struct Teamsheet
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Teamsheet, team_name, tactic, field, bench, pk);
 };
 
+/**
+ * Fixtures
+ */
+
+struct Fixture
+{
+    string home_team;
+    string away_team;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Fixture, home_team, away_team);
+};
+
+typedef vector<Fixture> FixturesWeek;
+typedef vector<FixturesWeek> FixturesArray;
+
+struct Fixtures
+{
+    FixturesArray weeks;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Fixtures, weeks);
+};
+
 #endif // _MODELS_H
